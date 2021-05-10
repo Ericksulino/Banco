@@ -21,6 +21,7 @@ from tela_login import Tela_Login
 from tela_acesso import Tela_Acesso
 from tela_historico import Tela_Historico
 from telaBuscaClie import Tela_Busca_Cliente
+from tela_deposito import Tela_Deposito
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
@@ -41,6 +42,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack9 = QtWidgets.QMainWindow()
         self.stack10 = QtWidgets.QMainWindow()
         self.stack11 = QtWidgets.QMainWindow()
+        self.stack12 = QtWidgets.QMainWindow()
 
         self.tela_inicio = Tela_Home()
         self.tela_inicio.setupUi(self.stack0)
@@ -78,6 +80,9 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_busca_cliente = Tela_Busca_Cliente()
         self.tela_busca_cliente.setupUi(self.stack11)
 
+        self.tela_deposito = Tela_Deposito()
+        self.tela_deposito.setupUi(self.stack12)
+
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
@@ -90,6 +95,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack9)
         self.QtStack.addWidget(self.stack10)
         self.QtStack.addWidget(self.stack11)
+        self.QtStack.addWidget(self.stack12)
 
 class Main(QMainWindow,Ui_Main):
     def __init__(self,parent=None):
@@ -206,6 +212,14 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
         else:
             QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
+    
+    def deposito(self,num):
+        valor = self.tela_depos.InpVal.text()
+        dep = self.ban.saque(num,valor)
+        if dep:
+            QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
+        else:
+            QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
 
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
@@ -218,7 +232,6 @@ class Main(QMainWindow,Ui_Main):
     
     def abrirTelaSaque(self,num):
         self.QtStack.setCurrentIndex(3)
-        self.tela_saque.ButSaque.clicked.connect(self.saque(num))
     
     def abrirTelaExtr(self):
         self.QtStack.setCurrentIndex(4)
@@ -243,6 +256,9 @@ class Main(QMainWindow,Ui_Main):
 
     def abrirBusca(self):
         self.QtStack.setCurrentIndex(11)
+    
+    def abrirDeposito(self):
+        self.QtStack.setCurrentIndex(12)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
