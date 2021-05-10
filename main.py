@@ -18,6 +18,7 @@ from tela_transferen import Tela_transferen
 from cadastroCliente import Tela_Cadastro_Cliente
 from tela_menu_conta import Tela_Menu_Conta
 from tela_login import Tela_Login
+from tela_acesso import Tela_Acesso
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
@@ -35,6 +36,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack6 = QtWidgets.QMainWindow()
         self.stack7 = QtWidgets.QMainWindow()
         self.stack8 = QtWidgets.QMainWindow()
+        self.stack9 = QtWidgets.QMainWindow()
 
         self.tela_inicio = Tela_Home()
         self.tela_inicio.setupUi(self.stack0)
@@ -63,6 +65,9 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_menu_conta = Tela_Menu_Conta()
         self.tela_menu_conta.setupUi(self.stack8)
 
+        self.tela_acesso = Tela_Acesso()
+        self.tela_acesso.setupUi(self.stack9)
+
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
@@ -72,6 +77,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack6)
         self.QtStack.addWidget(self.stack7)
         self.QtStack.addWidget(self.stack8)
+        self.QtStack.addWidget(self.stack9)
 
 class Main(QMainWindow,Ui_Main):
     def __init__(self,parent=None):
@@ -87,7 +93,7 @@ class Main(QMainWindow,Ui_Main):
 
         self.tela_menu_clie.ButCadastrar.clicked.connect(self.abrirTelaCadClie)
         self.tela_menu_clie.ButHome.clicked.connect(self.abrirHome)
-        
+
         self.tela_cadsClie.ButCadastrar.clicked.connect(self.botaoCadastClie)
         self.tela_cadsClie.ButHome.clicked.connect(self.abrirHome)
     
@@ -125,7 +131,15 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
         self.abrirHome()
 '''
-    
+    def conta(self):
+        cpf = self.tela_login.lineEdit.text()
+        pessoa = self.ban.busca_clie(cpf)
+        if pessoa != None:
+            self.abrirTelaAcess()
+            self.tela_acesso.OutNom.setText(pessoa.nome)
+        else:
+            QMessageBox.information(None,'Banco','O CPF informado não se encontra cadastrado!')
+            
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
 
@@ -152,6 +166,9 @@ class Main(QMainWindow,Ui_Main):
     
     def abrirMenuConta(self):
         self.QtStack.setCurrentIndex(8)
+    
+    def abrirTelaAcess(self):
+        self.QtStack.setCurrentIndex(9)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
