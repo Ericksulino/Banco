@@ -90,12 +90,15 @@ class Main(QMainWindow,Ui_Main):
 
         self.tela_login.ButCadas.clicked.connect(self.abrirTelaConta)
         self.tela_login.ButHome.clicked.connect(self.abrirHome)
+        self.tela_login.ButLogin.clicked.connect(self.conta)
 
         self.tela_menu_clie.ButCadastrar.clicked.connect(self.abrirTelaCadClie)
         self.tela_menu_clie.ButHome.clicked.connect(self.abrirHome)
 
         self.tela_cadsClie.ButCadastrar.clicked.connect(self.botaoCadastClie)
         self.tela_cadsClie.ButHome.clicked.connect(self.abrirHome)
+
+        
     
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
