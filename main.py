@@ -98,8 +98,9 @@ class Main(QMainWindow,Ui_Main):
         self.tela_cadsClie.ButCadastrar.clicked.connect(self.botaoCadastClie)
         self.tela_cadsClie.ButHome.clicked.connect(self.abrirHome)
 
-        
-    
+        self.tela_abrirConta.ButCadastar.clicked.connect(self.botaoCadastConta)
+        self.tela_abrirConta.ButHome.clicked.connect(self.abrirHome)
+
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
         cpf = self.tela_cadsClie.lineEdit_2.text()
@@ -116,24 +117,28 @@ class Main(QMainWindow,Ui_Main):
         else:
             QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
         self.abrirHome()
-    '''
+
+    
     def botaoCadastConta(self):
-        num = self.tela_cadsClie.lineEdit.text()
-        cpf = self.tela_cadsClie.lineEdit_2.text()
-        nascimento = self.tela_cadsClie.lineEdit_3.text()
-        if not(nome == '' or cpf == '' or nascimento == ''):
-            p = Cliente(nome,cpf,nascimento)
-            if(self.ban.adicionar_cliente(p)):
-                QMessageBox.information(None,'Banco','Cadastro realizado com sucesso!')
-                self.tela_cadsClie.lineEdit.setText('')
-                self.tela_cadsClie.lineEdit_2.setText('')
-                self.tela_cadsClie.lineEdit_3.setText('')
+        num = self.tela_abrirConta.lineEdit.text()
+        titular = self.tela_abrirConta.lineEdit_2
+        saldo = self.tela_abrirConta.lineEdit_3
+        limite = self.tela_abrirConta.lineEdit_4
+
+        if not(num == '' or titular == '' or saldo == '' or limite == ''):
+            c = Conta(num,titular,saldo,limite)
+            if(self.ban.adcionar_conta(c)):
+                QMessageBox.information(None,'Banco','Conta aberta com sucesso com sucesso!')
+                self.tela_abrirConta.lineEdit.setText('')
+                self.tela_abrirConta.lineEdit_2.setText('')
+                self.tela_abrirConta.lineEdit_3.setText('')
+                self.tela_abrirConta.lineEdit_4.setText('')
             else:
-                QMessageBox.information(None,'Banco','O CPF informado já se encontra cadastrado!')
+                QMessageBox.information(None,'Banco','O numero de conta ja encontra-se cadastrado!')
         else:
             QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
         self.abrirHome()
-'''
+
     def conta(self):
         cpf = self.tela_login.lineEdit.text()
         pessoa = self.ban.busca_clie(cpf)

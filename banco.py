@@ -3,34 +3,40 @@ from conta import Conta
 
 class Banco:
     def __init__(self):
-        self._lista_clie = {}
-        self._lista_contas = {}
+        self._lista_clie = []
+        self._lista_contas = []
 
     def busca_conta(self,num):
-        if num in self._lista_contas:
-            return self._lista_contas[num]
-        else:
-            return None
+        for lp in self._lista_contas:
+            if lp.numero == num:
+                return lp
+
+        return None
     
     def busca_clie(self,cpf):
-        if cpf in self._lista_clie:
-            return self._lista_clie[cpf]
-        else:
-            return None
+        for lp in self._lista_clie:
+            if lp.cpf == cpf:
+                return lp
+
+        return None
 
     def adcionar_conta(self,cnta):
-        if self.busca_conta(cnta.numero) != None:
-            return False
-        else:
-            self._lista_contas[cnta.numero] = cnta
+        existe = self.busca_conta(cnta.numero)
+        if (existe == None):
+            self._lista_contas.append(cnta)
             return True
+
+        else:
+            return False
     
     def adicionar_cliente(self,clie):
-        if self.busca_clie(clie.cpf) != None:
-            return False
-        else:
-            self._lista_clie[clie.cpf] = clie
+        existe = self.busca_clie(clie.cpf)
+        if (existe == None):
+            self._lista_clie.append(clie)
             return True
+
+        else:
+            return False
 
     def transfere(self,num,numDest,valor):
         if self.busca_conta(num) != None:

@@ -29,7 +29,7 @@ class Conta():
         return self._titular
     
     @titular.setter
-    def titular(self,tit):
+    def cpf_do_titular(self,tit):
         self._titular = tit
     
     @property
