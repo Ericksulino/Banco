@@ -50,5 +50,18 @@ class Banco:
         else:
             return False
     
+    def saque(self,num,valor):
+        if self.busca_conta(num) != None:
+            saq = self._lista_contas[num].saca(valor)
+            return saq
+        else:
+            return False
+
+    def deposita(self,num,valor):
+        if self.busca_conta(num) != None:
+            saq = self._lista_contas[num].deposita(valor)
+            return saq
+        else:
+            return False
                 
         
