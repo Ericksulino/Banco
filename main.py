@@ -101,6 +101,9 @@ class Main(QMainWindow,Ui_Main):
         self.tela_abrirConta.ButCadastar.clicked.connect(self.botaoCadastConta)
         self.tela_abrirConta.ButHome.clicked.connect(self.abrirHome)
 
+        self.tela_acesso.ButAcess.clicked.connect(self.botaoAcessaConta)
+        self.tela_acesso.ButHome.clicked.connect(self.abrirHome)
+
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
         cpf = self.tela_cadsClie.lineEdit_2.text()
@@ -139,12 +142,29 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
         self.abrirHome()
 
+    def botaoAcessaConta(self):
+        num = self.tela_acesso.InpNum.text()
+
+        if not(num == ''):
+            existe = self.ban.busca_conta(num)
+            if(existe != None):
+
+                self.abrirMenuConta()
+
+            else:
+                QMessageBox.information(None,'Banco','O numero da conta informado não existe!')
+                self.tela_acesso.InpNum.setText('')
+
+        else:
+            QMessageBox.information(None,'Banco','Informe o numero da conta!')
+
     def conta(self):
         cpf = self.tela_login.lineEdit.text()
         pessoa = self.ban.busca_clie(cpf)
         if pessoa != None:
             self.abrirTelaAcess()
             self.tela_acesso.OutNom.setText(pessoa.nome)
+            self.tela_login.lineEdit.setText('')
         else:
             QMessageBox.information(None,'Banco','O CPF informado não se encontra cadastrado!')
             
