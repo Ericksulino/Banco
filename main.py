@@ -124,8 +124,6 @@ class Main(QMainWindow,Ui_Main):
         self.tela_busca_cliente.butBuscar.clicked.connect(self.botaoBusca)
         self.tela_busca_cliente.butHome.clicked.connect(self.abrirHome)
 
-        #self.tela_saque.ButSaque.clicked.connect(self.saque())
-
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
         cpf = self.tela_cadsClie.lineEdit_2.text()
@@ -218,8 +216,9 @@ class Main(QMainWindow,Ui_Main):
     def abrirTelaCadClie(self):
         self.QtStack.setCurrentIndex(2)
     
-    def abrirTelaSaque(self):
+    def abrirTelaSaque(self,num):
         self.QtStack.setCurrentIndex(3)
+        self.tela_saque.ButSaque.clicked.connect(self.saque(num))
     
     def abrirTelaExtr(self):
         self.QtStack.setCurrentIndex(4)
