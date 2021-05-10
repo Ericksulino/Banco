@@ -64,6 +64,26 @@ class Main(QMainWindow,Ui_Main):
         self.tela_inicio.ButCliente.clicked.connect(self.abrirTelaCadClie)
         self.tela_inicio.ButConta.clicked.connect(self.abrirTelaConta)
 
+        self.tela_cadsClie.ButCadastrar.clicked.connect(self.botaoCadastClie)
+        self.tela_cadsClie.ButHome.clicked.connect(self.abrirHome)
+    
+    def botaoCadastClie(self):
+        nome = self.tela_cadsClie.lineEdit.text()
+        cpf = self.tela_cadsClie.lineEdit_2.text()
+        nascimento = self.tela_cadsClie.lineEdit_3.text()
+        if not(nome == '' or cpf == '' or nascimento == ''):
+            p = Cliente(nome,cpf,nascimento)
+            if(self.ban.adicionar_cliente(p)):
+                QMessageBox.information(None,'Banco','Cadastro realizado com sucesso!')
+                self.tela_cadsClie.lineEdit.setText('')
+                self.tela_cadsClie.lineEdit_2.setText('')
+                self.tela_cadsClie.lineEdit_3.setText('')
+            else:
+                QMessageBox.information(None,'Banco','O CPF informado já se encontra cadastrado!')
+        else:
+            QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
+        self.abrirHome()
+
     
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
