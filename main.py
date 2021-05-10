@@ -214,7 +214,7 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
     
     def deposito(self,num):
-        valor = self.tela_depos.InpVal.text()
+        valor = self.tela_depos.lineEdit.text()
         dep = self.ban.saque(num,valor)
         if dep:
             QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
@@ -230,7 +230,7 @@ class Main(QMainWindow,Ui_Main):
     def abrirTelaCadClie(self):
         self.QtStack.setCurrentIndex(2)
     
-    def abrirTelaSaque(self,num):
+    def abrirTelaSaque(self):
         self.QtStack.setCurrentIndex(3)
     
     def abrirTelaExtr(self):
