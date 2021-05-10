@@ -20,6 +20,7 @@ from tela_menu_conta import Tela_Menu_Conta
 from tela_login import Tela_Login
 from tela_acesso import Tela_Acesso
 from tela_historico import Tela_Historico
+from telaBuscaClie import Tela_Busca_Cliente
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
@@ -39,6 +40,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack8 = QtWidgets.QMainWindow()
         self.stack9 = QtWidgets.QMainWindow()
         self.stack10 = QtWidgets.QMainWindow()
+        self.stack11 = QtWidgets.QMainWindow()
 
         self.tela_inicio = Tela_Home()
         self.tela_inicio.setupUi(self.stack0)
@@ -73,6 +75,9 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_histo = Tela_Historico()
         self.tela_histo.setupUi(self.stack10)
 
+        self.tela_busca_cliente = Tela_Busca_Cliente()
+        self.tela_busca_cliente.setupUi(self.stack11)
+
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
@@ -84,6 +89,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack8)
         self.QtStack.addWidget(self.stack9)
         self.QtStack.addWidget(self.stack10)
+        self.QtStack.addWidget(self.stack11)
 
 class Main(QMainWindow,Ui_Main):
     def __init__(self,parent=None):
@@ -112,6 +118,11 @@ class Main(QMainWindow,Ui_Main):
 
         self.tela_menu_conta.ButSaq.clicked.connect(self.abrirTelaSaque)
         self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
+
+        self.tela_menu_clie.ButBuscar.clicked.connect(self.abrirBusca)
+
+        self.tela_busca_cliente.butBuscar.clicked.connect(self.botaoBusca)
+        self.tela_busca_cliente.butHome.clicked.connect(self.abrirHome)
 
         #self.tela_saque.ButSaque.clicked.connect(self.saque())
 
@@ -178,6 +189,17 @@ class Main(QMainWindow,Ui_Main):
             self.tela_login.lineEdit.setText('')
         else:
             QMessageBox.information(None,'Banco','O CPF informado não se encontra cadastrado!')
+    
+    def botaoBusca(self):
+        cpf = self.tela_busca_cliente.lineEdit.text()
+        pessoa = self.ban.busca_clie(cpf)
+        if(pessoa != None):
+            self.tela_busca_cliente.lineEdit_2.setText(pessoa.nome)
+            self.tela_busca_cliente.lineEdit_3.setText(pessoa.data_nascimento)
+
+        else:
+            QMessageBox.information(None,'Banco','CPF não encontrado!')
+            self.tela_busca_cliente.lineEdit.setText('')
 
     def saque(self,num):
         valor = self.tela_saque.InpVal.text()
@@ -219,6 +241,9 @@ class Main(QMainWindow,Ui_Main):
     
     def abrirTelaHist(self):
         self.QtStack.setCurrentIndex(10)
+
+    def abrirBusca(self):
+        self.QtStack.setCurrentIndex(11)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
