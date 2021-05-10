@@ -55,6 +55,33 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack3)
         self.QtStack.addWidget(self.stack4)
         self.QtStack.addWidget(self.stack5)
+class Main(QMainWindow,Ui_Main):
+    def __init__(self,parent=None):
+        super(Main,self).__init__(parent)
+        self.setupUi(self)
+
+        self.ban = Banco()
+        self.tela_inicio.ButCliente.clicked.connect(self.abrirTelaCadClie)
+        self.tela_inicio.ButConta.clicked.connect(self.abrirTelaConta)
+
+    
+    def abrirHome(self):
+        self.QtStack.setCurrentIndex(0)
+
+    def abrirTelaConta(self):
+        self.QtStack.setCurrentIndex(1)
+
+    def abrirTelaCadClie(self):
+        self.QtStack.setCurrentIndex(2)
+    
+    def abrirTelaSaque(self):
+        self.QtStack.setCurrentIndex(3)
+    
+    def abrirTelaExtr(self):
+        self.QtStack.setCurrentIndex(4)
+    
+    def abrirTelaTransf(self):
+        self.QtStack.setCurrentIndex(5)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
