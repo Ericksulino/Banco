@@ -19,7 +19,7 @@ class Banco:
             return None
 
     def adcionar_conta(self,cnta):
-        if self.busca_conta(cnta.num) != None:
+        if self.busca_conta(cnta.numero) != None:
             return False
         else:
             self._lista_contas[cnta.numero] = cnta
@@ -29,7 +29,7 @@ class Banco:
         if self.busca_clie(clie.cpf) != None:
             return False
         else:
-            self._lista_contas[clie.cpf] = clie
+            self._lista_clie[clie.cpf] = clie
             return True
 
     def transfere(self,num,numDest,valor):
