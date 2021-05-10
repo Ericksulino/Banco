@@ -19,6 +19,7 @@ from cadastroCliente import Tela_Cadastro_Cliente
 from tela_menu_conta import Tela_Menu_Conta
 from tela_login import Tela_Login
 from tela_acesso import Tela_Acesso
+from tela_historico import Tela_Historico
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
@@ -37,6 +38,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack7 = QtWidgets.QMainWindow()
         self.stack8 = QtWidgets.QMainWindow()
         self.stack9 = QtWidgets.QMainWindow()
+        self.stack10 = QtWidgets.QMainWindow()
 
         self.tela_inicio = Tela_Home()
         self.tela_inicio.setupUi(self.stack0)
@@ -68,6 +70,9 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_acesso = Tela_Acesso()
         self.tela_acesso.setupUi(self.stack9)
 
+        self.tela_histo = Tela_Historico()
+        self.tela_histo.setupUi(self.stack10)
+
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
@@ -78,6 +83,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack7)
         self.QtStack.addWidget(self.stack8)
         self.QtStack.addWidget(self.stack9)
+        self.QtStack.addWidget(self.stack10)
 
 class Main(QMainWindow,Ui_Main):
     def __init__(self,parent=None):
@@ -103,6 +109,11 @@ class Main(QMainWindow,Ui_Main):
 
         self.tela_acesso.ButAcess.clicked.connect(self.botaoAcessaConta)
         self.tela_acesso.ButHome.clicked.connect(self.abrirHome)
+
+        self.tela_menu_conta.ButSaq.clicked.connect(self.abrirTelaSaque)
+        self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
+
+        #self.tela_saque.ButSaque.clicked.connect(self.saque())
 
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
@@ -148,7 +159,7 @@ class Main(QMainWindow,Ui_Main):
         if not(num == ''):
             existe = self.ban.busca_conta(num)
             if(existe != None):
-
+                self.num = num
                 self.abrirMenuConta()
 
             else:
@@ -167,7 +178,15 @@ class Main(QMainWindow,Ui_Main):
             self.tela_login.lineEdit.setText('')
         else:
             QMessageBox.information(None,'Banco','O CPF informado não se encontra cadastrado!')
-            
+
+    def saque(self,num):
+        valor = self.tela_saque.InpVal.text()
+        saq = self.ban.saque(num,valor)
+        if saq:
+            QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
+        else:
+            QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
+
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
 
@@ -197,6 +216,9 @@ class Main(QMainWindow,Ui_Main):
     
     def abrirTelaAcess(self):
         self.QtStack.setCurrentIndex(9)
+    
+    def abrirTelaHist(self):
+        self.QtStack.setCurrentIndex(10)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
