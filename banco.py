@@ -5,7 +5,7 @@ class Banco:
     def __init__(self):
         self._lista_clie = {}
         self._lista_contas = {}
-    
+
     def busca_conta(self,num):
         if num in self._lista_contas:
             return self._lista_contas[num]
