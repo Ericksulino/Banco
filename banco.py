@@ -39,9 +39,11 @@ class Banco:
             return False
 
     def transfere(self,num,numDest,valor):
-        if self.busca_conta(num) != None:
-            if self.busca_conta(numDest) != None:
-                if (self._lista_contas[num].transfere(valor,self._lista_contas[numDest])):
+        rem = self.busca_conta(num)
+        dest = self.busca_conta(numDest)
+        if rem != None:
+            if dest != None:
+                if (rem.transfere(valor,dest)):
                     return True
                 else:
                     return False
@@ -51,15 +53,17 @@ class Banco:
             return False
     
     def saque(self,num,valor):
-        if self.busca_conta(num) != None:
-            saq = self._lista_contas[num].saca(valor)
+        cnta = self.busca_conta(num)
+        if cnta != None:
+            saq = cnta.saca(valor)
             return saq
         else:
             return False
 
     def deposita(self,num,valor):
-        if self.busca_conta(num) != None:
-            saq = self._lista_contas[num].deposita(valor)
+        cnta = self.busca_conta(num)
+        if cnta != None:
+            saq = cnta.deposita(valor)
             return saq
         else:
             return False
