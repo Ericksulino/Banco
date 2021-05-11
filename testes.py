@@ -18,6 +18,7 @@ ban.adcionar_conta(c1)
 c2 = Conta(432,cl2,850,1000)
 ban.adcionar_conta(c2)
 
+print(ban.busca_conta(432))
 
 print("Depositos:")
 true_false(c1.deposita(10))
@@ -32,8 +33,8 @@ true_false(ban.transfere(c1.numero,c2.numero,50))
 true_false(c2.transfere(1000,c1))
 
 print("\n\nExtratos")
-c1.extrato()
-c2.extrato()
+print(c1.extrato())
+print(c2.extrato())
 
 print("\n\nHistorico")
 c1.ver_historico()
