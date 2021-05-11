@@ -210,8 +210,8 @@ class Main(QMainWindow,Ui_Main):
             self.tela_busca_cliente.lineEdit.setText('')
 
     def saque(self):
-        num = self.tela_saque.InpNum.text()
-        valor = self.tela_saque.InpVal.text()
+        num = int(self.tela_saque.InpNum.text())
+        valor = int(self.tela_saque.InpVal.text())
         conta = self.ban.busca_conta(num)
         if conta != None:
             saq = conta.saque(valor)
@@ -222,12 +222,12 @@ class Main(QMainWindow,Ui_Main):
             else:
                 QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
         else:
-            QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
+            QMessageBox.information(None,'Banco','Conta não encontrada!')
         
     
     def deposito(self):
-        num = self.tela_saque.InpNum.text()
-        valor = self.tela_depos.lineEdit.text()
+        num = int(self.tela_saque.InpNum.text())
+        valor = int(self.tela_depos.lineEdit.text())
         conta = self.ban.busca_conta(num)
         if conta != None:
             dep = conta.deposita(valor)
@@ -238,7 +238,7 @@ class Main(QMainWindow,Ui_Main):
             else:
                 QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
         else:
-            QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
+            QMessageBox.information(None,'Banco','Conta não encontrada!')
 
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
