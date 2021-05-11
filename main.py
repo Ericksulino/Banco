@@ -143,7 +143,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_transf.Home.clicked.connect(self.abrirHome)
 
         self.tela_extrato.Home.clicked.connect(self.abrirHome)
-        self.tela_extrato.ButExtr.clicked.connect(self.saldo)
+        self.tela_extrato.ButExtr.clicked.connect(self.botaoExtrato)
 
 
     def botaoCadastClie(self):
@@ -169,17 +169,20 @@ class Main(QMainWindow,Ui_Main):
         titular = self.tela_abrirConta.lineEdit_2.text()
         saldo = float(self.tela_abrirConta.lineEdit_3.text())
         limite = float(self.tela_abrirConta.lineEdit_4.text())
-
+        pessoa = self.ban.busca_clie(titular)
         if not(num == '' or titular == '' or saldo == '' or limite == ''):
-            c = Conta(num,titular,saldo,limite)
-            if(self.ban.adcionar_conta(c)):
-                QMessageBox.information(None,'Banco','Conta aberta com sucesso com sucesso!')
-                self.tela_abrirConta.lineEdit.setText('')
-                self.tela_abrirConta.lineEdit_2.setText('')
-                self.tela_abrirConta.lineEdit_3.setText('')
-                self.tela_abrirConta.lineEdit_4.setText('')
+            if pessoa != None:
+                c = Conta(num,pessoa,saldo,limite)
+                if(self.ban.adcionar_conta(c)):
+                    QMessageBox.information(None,'Banco','Conta aberta com sucesso com sucesso!')
+                    self.tela_abrirConta.lineEdit.setText('')
+                    self.tela_abrirConta.lineEdit_2.setText('')
+                    self.tela_abrirConta.lineEdit_3.setText('')
+                    self.tela_abrirConta.lineEdit_4.setText('')
+                else:
+                    QMessageBox.information(None,'Banco','O numero de conta ja encontra-se cadastrado!')
             else:
-                QMessageBox.information(None,'Banco','O numero de conta ja encontra-se cadastrado!')
+                QMessageBox.information(None,'Banco','Pessoa não cadastrada!')
         else:
             QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
         self.abrirHome()
@@ -234,8 +237,8 @@ class Main(QMainWindow,Ui_Main):
         
     
     def botaoDeposito(self):
-        num = self.tela_saque.InpNum.text()
-        valor = float(self.tela_depos.lineEdit.text())
+        num = self.tela_deposito.InpNum.text()
+        valor = float(self.tela_deposito.lineEdit.text())
         dep = self.ban.deposita(num,valor)
         if dep:
                 QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
@@ -252,13 +255,17 @@ class Main(QMainWindow,Ui_Main):
         if (self.ban.busca_conta(destino) != None):
             self.ban.transfere(num,destino,valor)
             QMessageBox.information(None,'Banco','Transferencia executada!')
+            self.tela_transf.InpNum.setText('')
+            self.tela_transf.InpVal.setText('')
+            self.tela_transf.InpDest.setText('')
+            self.abrirMenuConta
         else:
             QMessageBox.information(None,'Banco','Conta de destino não existe!')
 
-    def saldo(self):
+    def botaoExtrato(self):
         num = self.tela_extrato.InpNum.text()
         tit = self.tela_extrato.OutTit.text()
-        extr = self.ban.extrato(num)
+        extr = str(self.ban.extrato(num))
         if(extr!=None):
             self.tela_extrato.OutSald.setText(extr)
         else:
