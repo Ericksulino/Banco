@@ -49,6 +49,16 @@ class Tela_transferen(object):
         self.InpDest.setGeometry(QtCore.QRect(230, 220, 113, 20))
         self.InpDest.setText("")
         self.InpDest.setObjectName("InpDest")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(160, 150, 51, 16))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.InpNum = QtWidgets.QLineEdit(self.centralwidget)
+        self.InpNum.setGeometry(QtCore.QRect(230, 150, 113, 20))
+        self.InpNum.setText("")
+        self.InpNum.setObjectName("InpNum")
         Tela_transferen.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(Tela_transferen)
         self.statusbar.setObjectName("statusbar")
@@ -65,6 +75,8 @@ class Tela_transferen(object):
         self.ButTrans.setText(_translate("Tela_transferen", "Transferir"))
         self.Home.setText(_translate("Tela_transferen", "HOME"))
         self.destino.setText(_translate("Tela_transferen", "Destino:"))
+        self.label.setText(_translate("Tela_transferen", "Numero:"))
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
