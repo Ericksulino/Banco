@@ -166,9 +166,9 @@ class Main(QMainWindow,Ui_Main):
     
     def botaoCadastConta(self):
         num = self.tela_abrirConta.lineEdit.text()
-        titular = self.tela_abrirConta.lineEdit_2
-        saldo = self.tela_abrirConta.lineEdit_3
-        limite = self.tela_abrirConta.lineEdit_4
+        titular = self.tela_abrirConta.lineEdit_2.text()
+        saldo = float(self.tela_abrirConta.lineEdit_3.text())
+        limite = float(self.tela_abrirConta.lineEdit_4.text())
 
         if not(num == '' or titular == '' or saldo == '' or limite == ''):
             c = Conta(num,titular,saldo,limite)
@@ -223,7 +223,7 @@ class Main(QMainWindow,Ui_Main):
 
     def botaoSaque(self):
         num = self.tela_saque.InpNum.text()
-        valor = self.tela_saque.InpVal.text()
+        valor = float(self.tela_saque.InpVal.text())
         saq = self.ban.saque(num,valor)
         if saq:
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
@@ -234,8 +234,8 @@ class Main(QMainWindow,Ui_Main):
         
     
     def botaoDeposito(self):
-        num = int(self.tela_saque.InpNum.text())
-        valor = int(self.tela_depos.lineEdit.text())
+        num = self.tela_saque.InpNum.text()
+        valor = float(self.tela_depos.lineEdit.text())
         dep = self.ban.deposita(num,valor)
         if dep:
                 QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
@@ -246,7 +246,7 @@ class Main(QMainWindow,Ui_Main):
 
     def botaoTransfere(self):
         num = self.tela_transf.InpNum.text()
-        valor = int(self.tela_transf.InpVal.text())
+        valor = float(self.tela_transf.InpVal.text())
         destino = self.tela_transf.InpDest.text()
 
         if (self.ban.busca_conta(destino) != None):
@@ -257,10 +257,10 @@ class Main(QMainWindow,Ui_Main):
 
     def saldo(self):
         num = self.tela_extrato.InpNum.text()
-        conta = self.ban.busca_conta(num)
-        if(conta!=None):
-            self.tela_extrato.OutTit.setText(conta.titular)
-            self.tela_extrato.OutSald.setText(conta.extrato)
+        tit = self.tela_extrato.OutTit.text()
+        extr = self.ban.extrato(num)
+        if(extr!=None):
+            self.tela_extrato.OutSald.setText(extr)
         else:
             QMessageBox.information(None,'Banco','Conta não encontrada!')
 
