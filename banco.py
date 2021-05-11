@@ -71,7 +71,7 @@ class Banco:
     def extrato(self,num):
         cnta = self.busca_conta(num)
         if cnta != None:
-            return cnta.extrato
+            return cnta.extrato()
         else:
             return None
                 
