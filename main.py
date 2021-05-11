@@ -125,6 +125,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_menu_conta.ButSaq.clicked.connect(self.abrirTelaSaque)
         self.tela_menu_conta.ButDep.clicked.connect(self.abrirDeposito)
         self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
+        self.tela_menu_conta.ButTrans.clicked.connect(self.abrirTelaTransf)
 
         self.tela_menu_clie.ButBuscar.clicked.connect(self.abrirBusca)
 
@@ -133,6 +134,9 @@ class Main(QMainWindow,Ui_Main):
 
         self.tela_saque.ButSaque.clicked.connect(self.saque)
         self.tela_deposito.pushButton.clicked.connect(self.deposito)
+
+        self.tela_transf.ButTrans.clicked.connect(self.botaoTransfere)
+        self.tela_transf.Home.clicked.connect(self.abrirHome)
 
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
@@ -239,6 +243,17 @@ class Main(QMainWindow,Ui_Main):
                 QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
         else:
             QMessageBox.information(None,'Banco','Conta não encontrada!')
+
+    def botaoTransfere(self):
+        num = self.tela_transf.InpNum.text()
+        valor = int(self.tela_transf.InpVal.text())
+        destino = self.tela_transf.InpDest.text()
+
+        if (self.ban.busca_conta(destino) != None):
+            self.ban.transfere(num,destino,valor)
+            QMessageBox.information(None,'Banco','Transferencia executada!')
+        else:
+            QMessageBox.information(None,'Banco','Conta de destino não existe!')
 
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
