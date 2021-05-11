@@ -133,10 +133,10 @@ class Main(QMainWindow,Ui_Main):
         self.tela_busca_cliente.butBuscar.clicked.connect(self.botaoBusca)
         self.tela_busca_cliente.butHome.clicked.connect(self.abrirHome)
 
-        self.tela_saque.ButSaque.clicked.connect(self.saque)
+        self.tela_saque.ButSaque.clicked.connect(self.botaoSaque)
         self.tela_saque.Home.clicked.connect(self.abrirHome)
 
-        self.tela_deposito.pushButton.clicked.connect(self.deposito)
+        self.tela_deposito.pushButton.clicked.connect(self.botaoDeposito)
         self.tela_deposito.ButHome.clicked.connect(self.abrirHome)
 
         self.tela_transf.ButTrans.clicked.connect(self.botaoTransfere)
@@ -221,36 +221,28 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','CPF não encontrado!')
             self.tela_busca_cliente.lineEdit.setText('')
 
-    def saque(self):
+    def botaoSaque(self):
         num = self.tela_saque.InpNum.text()
         valor = self.tela_saque.InpVal.text()
-        conta = self.ban.busca_conta(num)
-        if conta != None:
-            saq = conta.saque(valor)
-            if saq:
-                QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
-                self.tela_acesso.InpNum.setText('')
-                self.abrirMenuConta
-            else:
-                QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
+        saq = self.ban.saque(num,valor)
+        if saq:
+            QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
+            self.tela_acesso.InpNum.setText('')
+            self.abrirMenuConta
         else:
-            QMessageBox.information(None,'Banco','Conta não encontrada!')
+            QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
         
     
-    def deposito(self):
+    def botaoDeposito(self):
         num = int(self.tela_saque.InpNum.text())
         valor = int(self.tela_depos.lineEdit.text())
-        conta = self.ban.busca_conta(num)
-        if conta != None:
-            dep = conta.deposita(valor)
-            if dep:
+        dep = self.ban.deposita(num,valor)
+        if dep:
                 QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
                 self.tela_acesso.InpNum.setText('')
                 self.abrirMenuConta
-            else:
-                QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
         else:
-            QMessageBox.information(None,'Banco','Conta não encontrada!')
+                QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
 
     def botaoTransfere(self):
         num = self.tela_transf.InpNum.text()
@@ -267,7 +259,7 @@ class Main(QMainWindow,Ui_Main):
         num = self.tela_extrato.InpNum.text()
         conta = self.ban.busca_conta(num)
         if(conta!=None):
-            titu = self.tela_extrato.OutTit.setText(conta.titular)
+            self.tela_extrato.OutTit.setText(conta.titular)
             self.tela_extrato.OutSald.setText(conta.extrato)
         else:
             QMessageBox.information(None,'Banco','Conta não encontrada!')
