@@ -126,6 +126,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_menu_conta.ButDep.clicked.connect(self.abrirDeposito)
         self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
         self.tela_menu_conta.ButTrans.clicked.connect(self.abrirTelaTransf)
+        self.tela_menu_conta.ButSald.clicked.connect(self.abrirTelaExtr)
 
         self.tela_menu_clie.ButBuscar.clicked.connect(self.abrirBusca)
 
@@ -133,10 +134,17 @@ class Main(QMainWindow,Ui_Main):
         self.tela_busca_cliente.butHome.clicked.connect(self.abrirHome)
 
         self.tela_saque.ButSaque.clicked.connect(self.saque)
+        self.tela_saque.Home.clicked.connect(self.abrirHome)
+
         self.tela_deposito.pushButton.clicked.connect(self.deposito)
+        self.tela_deposito.ButHome.clicked.connect(self.abrirHome)
 
         self.tela_transf.ButTrans.clicked.connect(self.botaoTransfere)
         self.tela_transf.Home.clicked.connect(self.abrirHome)
+
+        self.tela_extrato.Home.clicked.connect(self.abrirHome)
+        self.tela_extrato.ButExtr.clicked.connect(self.saldo)
+
 
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
@@ -214,8 +222,8 @@ class Main(QMainWindow,Ui_Main):
             self.tela_busca_cliente.lineEdit.setText('')
 
     def saque(self):
-        num = int(self.tela_saque.InpNum.text())
-        valor = int(self.tela_saque.InpVal.text())
+        num = self.tela_saque.InpNum.text()
+        valor = self.tela_saque.InpVal.text()
         conta = self.ban.busca_conta(num)
         if conta != None:
             saq = conta.saque(valor)
@@ -254,6 +262,16 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Transferencia executada!')
         else:
             QMessageBox.information(None,'Banco','Conta de destino não existe!')
+
+    def saldo(self):
+        num = self.tela_extrato.InpNum.text()
+        conta = self.ban.busca_conta(num)
+        if(conta!=None):
+            titu = self.tela_extrato.OutTit.setText(conta.titular)
+            self.tela_extrato.OutSald.setText(conta.extrato)
+        else:
+            QMessageBox.information(None,'Banco','Conta não encontrada!')
+
 
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
