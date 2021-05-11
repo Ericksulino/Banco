@@ -75,6 +75,4 @@ class Conta():
         self.historico.imprimir_transacoes()
 
     def extrato(self):
-        print(f"Conta de nº: {self.numero}")
-        print(f"Titular: {self.titular.nome}")
-        print(f"Saldo: {self._saldo}")
+        return self._saldo
