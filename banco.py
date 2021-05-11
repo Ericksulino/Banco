@@ -67,5 +67,12 @@ class Banco:
             return saq
         else:
             return False
+    
+    def extrato(self,num):
+        cnta = self.busca_conta(num)
+        if cnta != None:
+            return cnta.extrato
+        else:
+            return None
                 
         
