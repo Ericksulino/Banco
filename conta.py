@@ -51,14 +51,14 @@ class Conta():
     def deposita(self, valor):
         if valor+self._saldo<=self.limite:
             self._saldo+=valor
-            self.historico.adicionar_transacao(f" - Depositou: {valor}")
+            self.historico.adicionar_transacao(f" - Depositou: {valor}\n")
             return True
         else: return False
     
     def saca(self, valor):
         if valor<=self._saldo:
             self._saldo-=valor
-            self.historico.adicionar_transacao(f" - Sacou: {valor}")
+            self.historico.adicionar_transacao(f" - Sacou: {valor}\n")
             return True
         else: return False
     
@@ -68,7 +68,7 @@ class Conta():
             return False
         else:
             destino.deposita(valor)
-            self.historico.adicionar_transacao(f" - Transferiu {valor} para {destino.titular.nome}")
+            self.historico.adicionar_transacao(f" - Transferiu {valor} para {destino.titular.nome}\n")
             return True
 
     def ver_historico(self):
