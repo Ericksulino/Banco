@@ -73,7 +73,7 @@ class Tela_transferen(object):
         self.Valor.setText(_translate("Tela_transferen", "Valor:"))
         self.Transfe.setText(_translate("Tela_transferen", "Transferência"))
         self.ButTrans.setText(_translate("Tela_transferen", "Transferir"))
-        self.Home.setText(_translate("Tela_transferen", "HOME"))
+        self.Home.setText(_translate("Tela_transferen", "Voltar"))
         self.destino.setText(_translate("Tela_transferen", "Destino:"))
         self.label.setText(_translate("Tela_transferen", "Numero:"))
 
