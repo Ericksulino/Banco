@@ -71,7 +71,7 @@ class Tela_extrato(object):
         self.SAQUE.setText(_translate("MainWindow", "Extrato"))
         self.Saldo.setText(_translate("MainWindow", "Saldo:"))
         self.numCo.setText(_translate("MainWindow", "Número da conta:"))
-        self.Home.setText(_translate("MainWindow", "HOME"))
+        self.Home.setText(_translate("MainWindow", "Voltar"))
         self.ButExtr.setText(_translate("MainWindow", "Extrato"))
 
 if __name__ == "__main__":
