@@ -238,9 +238,9 @@ class Main(QMainWindow,Ui_Main):
         saq = self.ban.saque(num,valor)
         if saq:
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
-            self.tela_saque.InpNum.setText('')
-            self.tela_saque.InpVal.setText('')
-            self.abrirMenuConta
+            #self.tela_saque.InpNum.setText('')
+            #self.tela_saque.InpVal.setText('')
+            #self.abrirMenuConta
         else:
             QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
         
@@ -250,10 +250,10 @@ class Main(QMainWindow,Ui_Main):
         valor = float(self.tela_deposito.lineEdit.text())
         dep = self.ban.deposita(num,valor)
         if dep:
-                QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
-                self.tela_deposito.InpNum.setText('')
-                self.tela_deposito.InpVal.setText('')
-                self.abrirMenuConta
+            QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
+            #self.tela_deposito.InpNum.setText('')
+            #self.tela_deposito.InpVal.setText('')
+            self.abrirMenuConta
         else:
                 QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
 
