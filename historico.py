@@ -12,5 +12,9 @@ class Historico:
     def imprimir_transacoes(self):
         print("Conta aberta em: ", self._data_abertura)
         print("Transações:")
+        i = ''
         for t in self._transacoes:
+            i = i + '\n' + t
             print(t)
+
+        return i

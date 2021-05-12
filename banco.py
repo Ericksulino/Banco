@@ -74,11 +74,4 @@ class Banco:
             return cnta.extrato()
         else:
             return None
-
-    def impTransacoes(self,numConta):
-        '''vou precisar de um campo pra inserir o numero da conta na tela de historico'''
-        cnt = self.busca_conta(numConta)
-        cnt.verHistorico()
-
                 
-        

@@ -17,9 +17,6 @@ class Tela_Historico(object):
         MainWindow.resize(640, 480)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.OutHist = QtWidgets.QLineEdit(self.centralwidget)
-        self.OutHist.setGeometry(QtCore.QRect(120, 80, 441, 351))
-        self.OutHist.setObjectName("OutHist")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(290, 40, 91, 20))
         font = QtGui.QFont()
@@ -27,8 +24,11 @@ class Tela_Historico(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.ButHome = QtWidgets.QPushButton(self.centralwidget)
-        self.ButHome.setGeometry(QtCore.QRect(510, 20, 75, 23))
+        self.ButHome.setGeometry(QtCore.QRect(530, 30, 75, 23))
         self.ButHome.setObjectName("ButHome")
+        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit.setGeometry(QtCore.QRect(40, 80, 581, 361))
+        self.textEdit.setObjectName("textEdit")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -41,8 +41,9 @@ class Tela_Historico(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Histórico"))
-        self.ButHome.setText(_translate("MainWindow", "HOME"))
-if __name__ == "__main__":
+        self.ButHome.setText(_translate("MainWindow", "Voltar"))
+
+if __name__ == "_main_":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()

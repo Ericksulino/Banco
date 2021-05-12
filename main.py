@@ -103,6 +103,7 @@ class Main(QMainWindow,Ui_Main):
         self.setupUi(self)
 
         self.ban = Banco()
+        self.loginConta = None
         self.tela_inicio.ButCliente.clicked.connect(self.abrirMenuClie)
         self.tela_inicio.ButConta.clicked.connect(self.abrirTelaLog)
 
@@ -127,7 +128,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
         self.tela_menu_conta.ButTrans.clicked.connect(self.abrirTelaTransf)
         self.tela_menu_conta.ButSald.clicked.connect(self.abrirTelaExtr)
-        self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
+        self.tela_menu_conta.pushButton_4.clicked.connect(self.botaoHistorico)
 
         self.tela_menu_clie.ButBuscar.clicked.connect(self.abrirBusca)
 
@@ -147,6 +148,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_extrato.ButExtr.clicked.connect(self.botaoExtrato)
 
         self.tela_histo.ButHome.clicked.connect(self.abrirHome)
+        
 
 
     def botaoCadastClie(self):
@@ -196,6 +198,7 @@ class Main(QMainWindow,Ui_Main):
         if not(num == ''):
             existe = self.ban.busca_conta(num)
             if(existe != None):
+                self.loginConta = existe
                 self.num = num
                 self.abrirMenuConta()
 
@@ -275,9 +278,9 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Conta não encontrada!')
 
     def botaoHistorico(self):
-        '''receber numero da conta de um lineEdit'''
-        self.tela_histo.OutHist.setText()
-
+        self.abrirTelaHist()
+        x = self.loginConta.ver_historico()
+        self.tela_histo.textEdit.setText(x)
 
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
