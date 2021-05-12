@@ -4,17 +4,10 @@ class Historico:
 
     def __init__(self):
         self._data_abertura = datetime.datetime.today()
-        self._transacoes = []
+        self._transacoes = "Conta aberta em: {}\n Transações:\n".format(self._data_abertura)
 
-    def adicionar_transacao(self, str):
-        self._transacoes.append(str)
+    def adicionar_transacao(self, trans):
+        self._transacoes +=trans
 
     def imprimir_transacoes(self):
-        print("Conta aberta em: ", self._data_abertura)
-        print("Transações:")
-        i = ''
-        for t in self._transacoes:
-            i = i + '\n' + t
-            print(t)
-
-        return i
+        return self._transacoes
