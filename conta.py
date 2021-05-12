@@ -51,7 +51,7 @@ class Conta():
     def deposita(self, valor):
         if valor+self._saldo<=self.limite:
             self._saldo+=valor
-            self.historico.adicionar_transacao(f" - Depositou: {valor}\n")
+            self.historico.adicionar_transacao(" - Depositou: {}\n".format(valor))
             return True
         else: return False
     
@@ -72,7 +72,7 @@ class Conta():
             return True
 
     def ver_historico(self):
-        self.historico.imprimir_transacoes()
+        return self.historico.imprimir_transacoes()
 
     def extrato(self):
         return self._saldo
