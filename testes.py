@@ -37,7 +37,7 @@ print(c1.extrato())
 print(c2.extrato())
 
 print("\n\nHistorico")
-c1.ver_historico()
-c2.ver_historico()
+print(c1.ver_historico())
+print(c2.ver_historico())
 
 print(Conta.get_total_contas())
