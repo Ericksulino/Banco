@@ -62,7 +62,7 @@ class Tela_saque(object):
         self.SAQUE.setText(_translate("MainWindow", "Saque"))
         self.Valor.setText(_translate("MainWindow", "Valor:"))
         self.ButSaque.setText(_translate("MainWindow", "SACAR"))
-        self.Home.setText(_translate("MainWindow", "HOME"))
+        self.Home.setText(_translate("MainWindow", "Voltar"))
         self.label.setText(_translate("MainWindow", "Numero:"))
 if __name__ == "__main__":
     import sys
