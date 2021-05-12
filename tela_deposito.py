@@ -56,7 +56,7 @@ class Tela_Deposito(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.ButHome.setText(_translate("MainWindow", "HOME"))
+        self.ButHome.setText(_translate("MainWindow", "Voltar"))
         self.label.setText(_translate("MainWindow", "Depósito"))
         self.label_2.setText(_translate("MainWindow", "Valor:"))
         self.pushButton.setText(_translate("MainWindow", "Depositar"))
