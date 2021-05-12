@@ -58,7 +58,7 @@ class Tela_Menu_Conta(object):
         self.MenuConta.setText(_translate("MainWindow", "Menu Conta"))
         self.ButSald.setText(_translate("MainWindow", "Saldo"))
         self.ButTrans.setText(_translate("MainWindow", "Transferência"))
-        self.ButHome.setText(_translate("MainWindow", "HOME"))
+        self.ButHome.setText(_translate("MainWindow", "Logout"))
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
