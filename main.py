@@ -127,6 +127,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
         self.tela_menu_conta.ButTrans.clicked.connect(self.abrirTelaTransf)
         self.tela_menu_conta.ButSald.clicked.connect(self.abrirTelaExtr)
+        self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
 
         self.tela_menu_clie.ButBuscar.clicked.connect(self.abrirBusca)
 
@@ -144,6 +145,8 @@ class Main(QMainWindow,Ui_Main):
 
         self.tela_extrato.Home.clicked.connect(self.abrirHome)
         self.tela_extrato.ButExtr.clicked.connect(self.botaoExtrato)
+
+        self.tela_histo.ButHome.clicked.connect(self.abrirHome)
 
 
     def botaoCadastClie(self):
@@ -270,6 +273,10 @@ class Main(QMainWindow,Ui_Main):
             self.tela_extrato.OutSald.setText(extr)
         else:
             QMessageBox.information(None,'Banco','Conta não encontrada!')
+
+    def botaoHistorico(self):
+        '''receber numero da conta de um lineEdit'''
+        self.tela_histo.OutHist.setText()
 
 
     def abrirHome(self):
