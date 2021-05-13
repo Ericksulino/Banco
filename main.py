@@ -104,12 +104,13 @@ class Main(QMainWindow,Ui_Main):
 
         self.ban = Banco()
         self.loginConta = None
+        self.loginClien = None
         self.tela_inicio.ButCliente.clicked.connect(self.abrirMenuClie)
         self.tela_inicio.ButConta.clicked.connect(self.abrirTelaLog)
 
         self.tela_login.ButCadas.clicked.connect(self.abrirTelaConta)
         self.tela_login.ButHome.clicked.connect(self.abrirHome)
-        self.tela_login.ButLogin.clicked.connect(self.conta)
+        self.tela_login.ButLogin.clicked.connect(self.botaoLogin)
 
         self.tela_menu_clie.ButCadastrar.clicked.connect(self.abrirTelaCadClie)
         self.tela_menu_clie.ButHome.clicked.connect(self.abrirHome)
@@ -136,18 +137,18 @@ class Main(QMainWindow,Ui_Main):
         self.tela_busca_cliente.butHome.clicked.connect(self.abrirHome)
 
         self.tela_saque.ButSaque.clicked.connect(self.botaoSaque)
-        self.tela_saque.Home.clicked.connect(self.abrirHome)
+        self.tela_saque.Home.clicked.connect(self.abrirMenuConta)
 
         self.tela_deposito.pushButton.clicked.connect(self.botaoDeposito)
-        self.tela_deposito.ButHome.clicked.connect(self.abrirHome)
+        self.tela_deposito.ButHome.clicked.connect(self.abrirMenuConta)
 
         self.tela_transf.ButTrans.clicked.connect(self.botaoTransfere)
-        self.tela_transf.Home.clicked.connect(self.abrirHome)
+        self.tela_transf.Home.clicked.connect(self.abrirMenuConta)
 
-        self.tela_extrato.Home.clicked.connect(self.abrirHome)
+        self.tela_extrato.Home.clicked.connect(self.abrirMenuConta)
         #self.tela_extrato.ButExtr.clicked.connect(self.botaoExtrato)
 
-        self.tela_histo.ButHome.clicked.connect(self.abrirHome)
+        self.tela_histo.ButHome.clicked.connect(self.abrirMenuConta)
         
 
 
@@ -209,10 +210,11 @@ class Main(QMainWindow,Ui_Main):
         else:
             QMessageBox.information(None,'Banco','Informe o numero da conta!')
 
-    def conta(self):
+    def botaoLogin(self):
         cpf = self.tela_login.lineEdit.text()
         pessoa = self.ban.busca_clie(cpf)
         if pessoa != None:
+            self.loginClien = pessoa
             self.abrirTelaAcess()
             self.tela_acesso.OutNom.setText(pessoa.nome)
             self.tela_login.lineEdit.setText('')
