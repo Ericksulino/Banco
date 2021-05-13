@@ -122,7 +122,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_abrirConta.ButHome.clicked.connect(self.abrirHome)
 
         self.tela_acesso.ButAcess.clicked.connect(self.botaoAcessaConta)
-        self.tela_acesso.ButHome.clicked.connect(self.abrirHome)
+        self.tela_acesso.ButHome.clicked.connect(self.botaoLogoutClie)
 
         self.tela_menu_conta.ButSaq.clicked.connect(self.abrirTelaSaque)
         self.tela_menu_conta.ButDep.clicked.connect(self.abrirDeposito)
@@ -130,6 +130,7 @@ class Main(QMainWindow,Ui_Main):
         self.tela_menu_conta.ButTrans.clicked.connect(self.abrirTelaTransf)
         self.tela_menu_conta.ButSald.clicked.connect(self.botaoExtrato)
         self.tela_menu_conta.pushButton_4.clicked.connect(self.botaoHistorico)
+        self.tela_menu_conta.ButHome.clicked.connect(self.botaoLogoutCont)
 
         self.tela_menu_clie.ButBuscar.clicked.connect(self.abrirBusca)
 
@@ -285,6 +286,14 @@ class Main(QMainWindow,Ui_Main):
         self.abrirTelaHist()
         x = self.loginConta.ver_historico()
         self.tela_histo.textEdit.setText(x)
+    
+    def botaoLogoutCont(self):
+        self.loginConta = None
+        self.abrirTelaAcess()
+    
+    def botaoLogoutClie(self):
+        self.loginClien = None
+        self.abrirTelaLog()
 
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)
