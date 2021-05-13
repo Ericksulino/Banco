@@ -109,7 +109,7 @@ class Main(QMainWindow,Ui_Main):
 
         self.tela_login.ButCadas.clicked.connect(self.abrirTelaConta)
         self.tela_login.ButHome.clicked.connect(self.abrirHome)
-        self.tela_login.ButLogin.clicked.connect(self.botaoLogin)
+        self.tela_login.ButLogin.clicked.connect(self.conta)
 
         self.tela_menu_clie.ButCadastrar.clicked.connect(self.abrirTelaCadClie)
         self.tela_menu_clie.ButHome.clicked.connect(self.abrirHome)
@@ -127,9 +127,8 @@ class Main(QMainWindow,Ui_Main):
         self.tela_menu_conta.ButDep.clicked.connect(self.abrirDeposito)
         self.tela_menu_conta.pushButton_4.clicked.connect(self.abrirTelaHist)
         self.tela_menu_conta.ButTrans.clicked.connect(self.abrirTelaTransf)
-        self.tela_menu_conta.ButSald.clicked.connect(self.abrirTelaExtr)
+        self.tela_menu_conta.ButSald.clicked.connect(self.botaoExtrato)
         self.tela_menu_conta.pushButton_4.clicked.connect(self.botaoHistorico)
-        self.tela_menu_conta.ButHome.clicked.connect(self.botaoLogout)
 
         self.tela_menu_clie.ButBuscar.clicked.connect(self.abrirBusca)
 
@@ -137,18 +136,18 @@ class Main(QMainWindow,Ui_Main):
         self.tela_busca_cliente.butHome.clicked.connect(self.abrirHome)
 
         self.tela_saque.ButSaque.clicked.connect(self.botaoSaque)
-        self.tela_saque.Home.clicked.connect(self.abrirMenuConta)
+        self.tela_saque.Home.clicked.connect(self.abrirHome)
 
         self.tela_deposito.pushButton.clicked.connect(self.botaoDeposito)
-        self.tela_deposito.ButHome.clicked.connect(self.abrirMenuConta)
+        self.tela_deposito.ButHome.clicked.connect(self.abrirHome)
 
         self.tela_transf.ButTrans.clicked.connect(self.botaoTransfere)
-        self.tela_transf.Home.clicked.connect(self.abrirMenuConta)
+        self.tela_transf.Home.clicked.connect(self.abrirHome)
 
-        self.tela_extrato.Home.clicked.connect(self.abrirMenuConta)
-        self.tela_extrato.ButExtr.clicked.connect(self.botaoExtrato)
+        self.tela_extrato.Home.clicked.connect(self.abrirHome)
+        #self.tela_extrato.ButExtr.clicked.connect(self.botaoExtrato)
 
-        self.tela_histo.ButHome.clicked.connect(self.abrirMenuConta)
+        self.tela_histo.ButHome.clicked.connect(self.abrirHome)
         
 
 
@@ -202,7 +201,6 @@ class Main(QMainWindow,Ui_Main):
                 self.loginConta = existe
                 self.num = num
                 self.abrirMenuConta()
-                self.tela_acesso.InpNum.setText('')
 
             else:
                 QMessageBox.information(None,'Banco','O numero da conta informado não existe!')
@@ -211,7 +209,7 @@ class Main(QMainWindow,Ui_Main):
         else:
             QMessageBox.information(None,'Banco','Informe o numero da conta!')
 
-    def botaoLogin(self):
+    def conta(self):
         cpf = self.tela_login.lineEdit.text()
         pessoa = self.ban.busca_clie(cpf)
         if pessoa != None:
@@ -233,14 +231,13 @@ class Main(QMainWindow,Ui_Main):
             self.tela_busca_cliente.lineEdit.setText('')
 
     def botaoSaque(self):
-        num = self.tela_saque.InpNum.text()
+        #num = self.tela_saque.InpNum.text()
         valor = float(self.tela_saque.InpVal.text())
-        saq = self.ban.saque(num,valor)
+        saq = self.loginConta.saca(valor)
         if saq:
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
-            self.tela_saque.InpNum.setText('')
-            self.tela_saque.InpVal.setText('')
-            self.abrirMenuConta()
+            self.tela_acesso.InpNum.setText('')
+            self.abrirMenuConta
         else:
             QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
         
@@ -250,20 +247,19 @@ class Main(QMainWindow,Ui_Main):
         valor = float(self.tela_deposito.lineEdit.text())
         dep = self.ban.deposita(num,valor)
         if dep:
-            QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
-            self.tela_deposito.InpNum.setText('')
-            self.tela_deposito.InpVal.setText('')
-            self.abrirMenuConta()
+                QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
+                self.tela_acesso.InpNum.setText('')
+                self.abrirMenuConta
         else:
                 QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
 
     def botaoTransfere(self):
-        num = self.tela_transf.InpNum.text()
+        #num = self.tela_transf.InpNum.text()
         valor = float(self.tela_transf.InpVal.text())
         destino = self.tela_transf.InpDest.text()
 
         if (self.ban.busca_conta(destino) != None):
-            self.ban.transfere(num,destino,valor)
+            self.loginConta.transfere(valor,destino)
             QMessageBox.information(None,'Banco','Transferencia executada!')
             self.tela_transf.InpNum.setText('')
             self.tela_transf.InpVal.setText('')
@@ -273,22 +269,20 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Conta de destino não existe!')
 
     def botaoExtrato(self):
-        num = self.tela_extrato.InpNum.text()
-        tit = self.tela_extrato.OutTit.text()
-        extr = str(self.ban.extrato(num))
-        if(extr!=None):
-            self.tela_extrato.OutSald.setText(extr)
-        else:
-            QMessageBox.information(None,'Banco','Conta não encontrada!')
+        '''num = self.tela_extrato.InpNum.text()
+        tit = self.tela_extrato.OutTit.text()'''
+        self.abrirTelaExtr()
+        extr = str(self.loginConta.extrato())
+        #if(self.loginConta!=None):
+        self.tela_extrato.OutTit.setText(self.loginConta.titular.nome)
+        self.tela_extrato.OutSald.setText(extr)
+        #else:
+        #QMessageBox.information(None,'Banco','Conta não encontrada!')
 
     def botaoHistorico(self):
         self.abrirTelaHist()
-        x = str(self.loginConta.ver_historico())
+        x = self.loginConta.ver_historico()
         self.tela_histo.textEdit.setText(x)
-    
-    def botaoLogout(self):
-        self.loginConta = None
-        self.abrirTelaAcess()
 
     def abrirHome(self):
         self.QtStack.setCurrentIndex(0)

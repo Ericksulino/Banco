@@ -21,7 +21,7 @@ class Tela_Deposito(object):
         self.ButHome.setGeometry(QtCore.QRect(540, 20, 75, 23))
         self.ButHome.setObjectName("ButHome")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(270, 40, 91, 31))
+        self.label.setGeometry(QtCore.QRect(270, 40, 105, 31))
         font = QtGui.QFont()
         font.setPointSize(18)
         self.label.setFont(font)

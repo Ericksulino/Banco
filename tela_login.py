@@ -36,7 +36,7 @@ class Tela_Login(object):
         self.ou.setGeometry(QtCore.QRect(310, 130, 21, 16))
         self.ou.setObjectName("ou")
         self.ButCadas = QtWidgets.QPushButton(self.centralwidget)
-        self.ButCadas.setGeometry(QtCore.QRect(280, 160, 75, 23))
+        self.ButCadas.setGeometry(QtCore.QRect(280, 160, 85, 23))
         self.ButCadas.setObjectName("ButCadas")
         self.ButLogin = QtWidgets.QPushButton(self.centralwidget)
         self.ButLogin.setGeometry(QtCore.QRect(380, 100, 41, 23))
@@ -62,7 +62,7 @@ class Tela_Login(object):
         self.Login.setText(_translate("MainWindow", "Login"))
         self.CPF.setText(_translate("MainWindow", "CPF:"))
         self.ou.setText(_translate("MainWindow", "Ou"))
-        self.ButCadas.setText(_translate("MainWindow", "Cadastre-se"))
+        self.ButCadas.setText(_translate("MainWindow", "Abrir Conta"))
         self.ButLogin.setText(_translate("MainWindow", "Login"))
         self.ButHome.setText(_translate("MainWindow", "HOME"))
 if __name__ == "__main__":

@@ -39,7 +39,7 @@ class Tela_Acesso(object):
         self.label_3.setGeometry(QtCore.QRect(190, 160, 47, 21))
         self.label_3.setObjectName("label_3")
         self.ButAcess = QtWidgets.QPushButton(self.centralwidget)
-        self.ButAcess.setGeometry(QtCore.QRect(240, 200, 111, 41))
+        self.ButAcess.setGeometry(QtCore.QRect(240, 200, 111, 30))
         self.ButAcess.setObjectName("ButAcess")
         self.ButHome = QtWidgets.QPushButton(self.centralwidget)
         self.ButHome.setGeometry(QtCore.QRect(550, 10, 75, 23))
