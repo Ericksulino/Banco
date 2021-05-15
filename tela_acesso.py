@@ -63,7 +63,7 @@ class Tela_Acesso(object):
         self.label_2.setText(_translate("MainWindow", "Digite o número da conta que deseja acessar:"))
         self.label_3.setText(_translate("MainWindow", "Número:"))
         self.ButAcess.setText(_translate("MainWindow", "Acessar"))
-        self.ButHome.setText(_translate("MainWindow", "HOME"))
+        self.ButHome.setText(_translate("MainWindow", "Logout"))
 
 if __name__ == "__main__":
     import sys
