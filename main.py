@@ -200,10 +200,12 @@ class Main(QMainWindow,Ui_Main):
         if not(num == ''):
             existe = self.ban.busca_conta(num)
             if(existe != None):
-                self.loginConta = existe
-                self.num = num
-                self.abrirMenuConta()
-
+                if(existe.titular.cpf == self.loginClien.cpf):
+                    self.loginConta = existe
+                    self.num = num
+                    self.abrirMenuConta()
+                else:
+                   QMessageBox.information(None,'Banco','O numero da conta informado não está atrelado a esse CPF!') 
             else:
                 QMessageBox.information(None,'Banco','O numero da conta informado não existe!')
                 self.tela_acesso.InpNum.setText('')
