@@ -6,6 +6,9 @@ class Cliente:
         self._addr = ((self._ip,self._port))
         self._client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
+    def cli_sock_set(self,css):
+        self._client_socket = css
+
     def comunicacao(self):
         self._client_socket.connect(self._addr)
         mensagem = ''
