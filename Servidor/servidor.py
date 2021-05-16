@@ -15,22 +15,27 @@ class Servidor:
         self.serv_socket.bind(self.addr)
         self.serv_socket.listen(10)
         print("aguardando conexão...")
-        print("conectado")
-        print("aguardando mensagem...")
+        self.comunicacao()
     
     def comunicacao(self):
         con, cliente = self.serv_socket.accept()
-        recebe = con.recv(1024)
-        while(recebe.decode()!= 'sair'):
+        print("conectado")
+        print("aguardando mensagem...")
+        running = True
+        while(running):
+            recebe = con.recv(1024)
             print('mensagem recebida: '+ recebe.decode())
-            if recebe.decode() == 'add cliente':
+            if recebe.decode() == 'sair':
+                running = False
+            elif recebe.decode() == 'add cliente':
                 nome = recebe.decode()
                 cpf = recebe.decode()
                 dtNas = recebe.decode()
                 clie = Cliente(nome,cpf,dtNas)
-                self.ban.adicionar_cliente(clie)
-        
-        self.serv_socket.close()
+                if not(self.ban.adicionar_cliente(clie)):
+                    con.send('erro'.encode())
+            
     
+        self.serv_socket.close()
 serv = Servidor()
 serv.iniciar()
