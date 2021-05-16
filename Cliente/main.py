@@ -9,18 +9,18 @@ from conta import Conta
 from cliente import Cliente
 from banco import Banco
 
-from abrirConta import Tela_Abrir_conta
-from home import Tela_Home
-from menuCliente import Menu_Cliente
+from tela_abrir_conta import Tela_Abrir_conta
+from tela_home import Tela_Home
+from tela_menu_cliente import Menu_Cliente
 from tela_extrato import Tela_extrato
 from tela_saque import Tela_saque
 from tela_transferen import Tela_transferen
-from cadastroCliente import Tela_Cadastro_Cliente
+from tela_cadastro_cliente import Tela_Cadastro_Cliente
 from tela_menu_conta import Tela_Menu_Conta
 from tela_login import Tela_Login
 from tela_acesso import Tela_Acesso
 from tela_historico import Tela_Historico
-from telaBuscaClie import Tela_Busca_Cliente
+from tela_busca_clie import Tela_Busca_Cliente
 from tela_deposito import Tela_Deposito
 
 class Ui_Main(QtWidgets.QWidget):
