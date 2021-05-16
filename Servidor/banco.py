@@ -1,4 +1,4 @@
-from cliente import Cliente
+from pessoa import Cliente
 from conta import Conta
 
 class Banco:
