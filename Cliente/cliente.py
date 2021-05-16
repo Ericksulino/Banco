@@ -16,3 +16,6 @@ class Cliente:
             print('mensagem recebida: '+self._client_socket.recv(1024).decode())
 
         self._client_socket.close()
+
+clie = Cliente()
+clie.comunicacao()
