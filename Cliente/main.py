@@ -5,9 +5,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox,QMainWindow,QApplication,QFileDialog
 from PyQt5.QtCore import QCoreApplication
 
-from conta import Conta
-from cliente import Cliente
-from banco import Banco
+#from conta import Conta
+#from cliente import Cliente
+#from banco import Banco
 
 from tela_abrir_conta import Tela_Abrir_conta
 from tela_home import Tela_Home
@@ -20,7 +20,7 @@ from tela_menu_conta import Tela_Menu_Conta
 from tela_login import Tela_Login
 from tela_acesso import Tela_Acesso
 from tela_historico import Tela_Historico
-from tela_busca_clie import Tela_Busca_Cliente
+from tela_busca_cliente import Tela_Busca_Cliente
 from tela_deposito import Tela_Deposito
 
 class Ui_Main(QtWidgets.QWidget):
