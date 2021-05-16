@@ -1,10 +1,14 @@
 import socket
+from banco import Banco
+from cliente import Cliente
+from conta import Conta
 class Servidor:
     def __init__(self):
         self._host = 'localhost'
         self.port = 8001
         self.addr = (self._host,self.port)
         self.serv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        self.ban = Banco()
     
     def iniciar(self):
         self.serv_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
@@ -13,17 +17,20 @@ class Servidor:
         print("aguardando conexão...")
         print("conectado")
         print("aguardando mensagem...")
+    
+    def comunicacao(self):
         con, cliente = self.serv_socket.accept()
-        enviar = input('digite uma mensagem para enviar ao cliente: ')
-        con.send(enviar.encode())
-        enviar = ''
-        while(enviar!= 'sair'):
-            recebe = con.recv(1024)
+        recebe = con.recv(1024)
+        while(recebe.decode()!= 'sair'):
             print('mensagem recebida: '+ recebe.decode())
-            enviar = input('digite uma mensagem para enviar ao cliente: ')
-            con.send(enviar.encode())
+            if recebe.decode() == 'add cliente':
+                nome = recebe.decode()
+                cpf = recebe.decode()
+                dtNas = recebe.decode()
+                clie = Cliente(nome,cpf,dtNas)
+                self.ban.adicionar_cliente(clie)
         
         self.serv_socket.close()
-
+    
 serv = Servidor()
 serv.iniciar()
