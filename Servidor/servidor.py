@@ -69,14 +69,14 @@ while(running):
         if cli == None:
             con.send('erro'.encode())
         else:
-            con.send(str(cli).encode())
+            con.send('{},{},{}'.format(cli.nome,cli.cpf,cli.data_nascimento).encode())
     
     elif msg[0] == 'busca_cnta': # ,num 
         cta = ban.busca_conta(msg[1])
         if cta==None:
             con.send('erro'.encode())
         else:
-            con.send(str(cta).encode())
+            con.send('{},{},{}'.format(cta.numero,cta.titular,cta.saldo,cta.limite).encode())
     
     elif msg[0] == 'historic': # ,num
         hist = ban.historico(msg[1])
