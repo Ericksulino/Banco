@@ -194,16 +194,15 @@ class Main(QMainWindow,Ui_Main):
 
             if cnt == 'sucesso':
                 #c = Conta(num,pessoa,saldo,limite)
-                if(cnt == True):
-                    QMessageBox.information(None,'Banco','Conta aberta com sucesso com sucesso!')
-                    self.tela_abrirConta.lineEdit.setText('')
-                    self.tela_abrirConta.lineEdit_2.setText('')
-                    self.tela_abrirConta.lineEdit_3.setText('')
-                    self.tela_abrirConta.lineEdit_4.setText('')
-                else:
-                    QMessageBox.information(None,'Banco','O numero de conta ja encontra-se cadastrado!')
+                QMessageBox.information(None,'Banco','Conta aberta com sucesso com sucesso!')
+                self.tela_abrirConta.lineEdit.setText('')
+                self.tela_abrirConta.lineEdit_2.setText('')
+                self.tela_abrirConta.lineEdit_3.setText('')
+                self.tela_abrirConta.lineEdit_4.setText('')
             else:
-                QMessageBox.information(None,'Banco','Pessoa não cadastrada!')
+                QMessageBox.information(None,'Banco','O numero de conta ja encontra-se cadastrado!')
+            #else:
+                #QMessageBox.information(None,'Banco','Pessoa não cadastrada!')
         else:
             QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
         self.abrirHome()
