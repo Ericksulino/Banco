@@ -1,5 +1,5 @@
 from conta import Conta
-from cliente import Cliente
+from pessoa import Cliente
 from banco import Banco
 def true_false(bol):
     if bol == True:
@@ -33,7 +33,7 @@ true_false(ban.transfere(c1.numero,c2.numero,50))
 true_false(c2.transfere(1000,c1))
 
 print("\n\nExtratos")
-print(c1.extrato())
+print(ban.extrato(123))
 print(c2.extrato())
 
 print("\n\nHistorico")
