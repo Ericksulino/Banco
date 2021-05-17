@@ -25,58 +25,65 @@ while(running):
     if recebe.decode() == 'sair':
         running = False
 
-    elif msg[0] == 'add_cliente':
+    elif msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
         clie = Cliente(msg[1],msg[2],msg[3])
         if not(ban.adicionar_cliente(clie)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
-    elif msg[0] == 'add_conta':
+    elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
         cnta = Conta(msg[1],msg[2],float(msg[3]),float(msg[4]))
         if not(ban.adcionar_conta(cnta)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
-    elif msg[0] == 'transfere':
+    elif msg[0] == 'transfere': # ,num,numDest,valor
         if not(ban.transfere(msg[1],msg[2],float(msg[3]))):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
-    elif msg[0] == 'saque':
+    elif msg[0] == 'saque': # ,num,valor
         if not(ban.saque(msg[1],float(msg[2]))):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
-    elif msg[0] == 'deposita':
+    elif msg[0] == 'deposita': # ,num,valor
         if not(ban.deposita(msg[1],float(msg[2]))):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
 
-    elif msg[0] == 'saldo':
+    elif msg[0] == 'saldo': # ,num
         extr = ban.extrato(msg[1])
-        if extr != None:
+        if extr == None:
             con.send('erro'.encode())
         else:
-            con.send(extr.encode())
+            con.send(str(extr).encode())
 
-    elif msg[0] == 'busc_clie':
+    elif msg[0] == 'busc_clie': # ,cpf
         cli = ban.busca_clie(msg[1])
-        if cli != None:
+        if cli == None:
             con.send('erro'.encode())
         else:
-            con.send(cli.encode())
+            con.send(str(cli).encode())
     
-    elif msg[0] == 'busca_cnta':
+    elif msg[0] == 'busca_cnta': # ,num 
         cta = ban.busca_conta(msg[1])
-        if cta!=None:
+        if cta==None:
             con.send('erro'.encode())
         else:
-            con.send(cta.encode())
+            con.send(str(cta).encode())
+    
+    elif msg[0] == 'historic': # ,num
+        hist = ban.historico(msg[1])
+        if hist==None:
+            con.send('erro'.encode())
+        else:
+            con.send(hist.encode())
 serv_socket.close()
 
 
