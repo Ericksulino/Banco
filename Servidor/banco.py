@@ -68,8 +68,8 @@ class Banco:
         else:
             return False
     
-    def extrato(self,cnta):
-        #cnta = self.busca_conta(num)
+    def extrato(self,num):
+        cnta = self.busca_conta(num)
         if cnta != None:
             return cnta.extrato()
         else:
