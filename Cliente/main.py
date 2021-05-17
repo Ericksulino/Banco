@@ -232,9 +232,9 @@ class Main(QMainWindow,Ui_Main):
         cpf = self.tela_login.lineEdit.text()
         client_socket.send('busca_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
-        pessoa = pessoa.split(',')
         #pessoa = self.ban.busca_clie(cpf)
         if pessoa != 'erro':
+            pessoa = pessoa.split(',')
             self.loginClien = cpf
             self.abrirTelaAcess()
             self.tela_acesso.OutNom.setText(pessoa[0])
@@ -248,7 +248,7 @@ class Main(QMainWindow,Ui_Main):
         pessoa = client_socket.recv(1024).decode()
         pessoa = pessoa.split(',')
         #pessoa = self.ban.busca_clie(cpf)
-        if(pessoa != None):
+        if(pessoa != 'erro'):
             self.tela_busca_cliente.lineEdit_2.setText(pessoa[0])
             self.tela_busca_cliente.lineEdit_3.setText(pessoa[3])
 
