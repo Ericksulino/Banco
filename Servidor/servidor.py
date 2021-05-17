@@ -58,22 +58,25 @@ while(running):
             con.send('sucesso'.encode())
 
     elif msg[0] == 'saldo':
-        if not(ban.extrato(msg[1])):
+        extr = ban.extrato(msg[1])
+        if extr != None:
             con.send('erro'.encode())
         else:
-            con.send('sucesso'.encode())
+            con.send(extr.encode())
 
     elif msg[0] == 'busc_clie':
-        if not(ban.busca_clie(msg[1])):
+        cli = ban.busca_clie(msg[1])
+        if cli != None:
             con.send('erro'.encode())
         else:
-            con.send('sucesso'.encode())
+            con.send(cli.encode())
     
     elif msg[0] == 'busca_cnta':
-        if not(ban.busca_conta(msg[1])):
+        cta = ban.busca_conta(msg[1])
+        if cta!=None:
             con.send('erro'.encode())
         else:
-            con.send('sucesso'.encode())
+            con.send(cta.encode())
 serv_socket.close()
 
 
