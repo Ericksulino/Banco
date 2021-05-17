@@ -70,9 +70,20 @@ class Banco:
     
     def extrato(self,num):
         cnta = self.busca_conta(num)
-        if cnta != None:
-            return cnta.extrato()
-        else:
+        if cnta == None:
             return None
+        else:
+            extr = cnta.extrato()
+            return extr
+
+
+    def historico(self,num):
+        cnta = self.busca_conta(num)
+        if cnta == None:
+            return None
+        else:
+            hist = cnta.ver_historico()
+            return hist
+            
                 
 ban = Banco()
