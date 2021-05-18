@@ -292,7 +292,7 @@ class Main(QMainWindow,Ui_Main):
         #num = self.tela_transf.InpNum.text()
         valor = float(self.tela_transf.InpVal.text())
         destino = self.tela_transf.InpDest.text()
-        client_socket.send('busc_cnta,{}'.format(destino).encode())
+        client_socket.send('busca_cnta,{}'.format(destino).encode())
         des = client_socket.recv(1024).decode()
         dest = des.split(',')
         if (des != 'erro'):
