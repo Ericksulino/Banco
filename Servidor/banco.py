@@ -38,7 +38,7 @@ class Banco:
         else:
             return False
 
-    def transfere(self,num,numDest,valor):
+    def transfere(self,num,valor,numDest):
         rem = self.busca_conta(num)
         dest = self.busca_conta(numDest)
         if rem != None:
@@ -64,7 +64,7 @@ class Banco:
         cnta = self.busca_conta(num)
         if cnta != None:
             saq = cnta.deposita(valor)
-            return saq
+            return True
         else:
             return False
     
