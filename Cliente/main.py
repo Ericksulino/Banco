@@ -229,28 +229,30 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Informe o numero da conta!')
 
     def botaoLogin(self):
+        pes = []
         cpf = self.tela_login.lineEdit.text()
         client_socket.send('busca_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
         #pessoa = self.ban.busca_clie(cpf)
         if pessoa != 'erro':
-            pessoa = pessoa.split(',')
+            pes = pessoa.split(',')
             self.loginClien = cpf
             self.abrirTelaAcess()
-            self.tela_acesso.OutNom.setText(pessoa[0])
+            self.tela_acesso.OutNom.setText(pes[0])
             self.tela_login.lineEdit.setText('')
         else:
             QMessageBox.information(None,'Banco','O CPF informado não se encontra cadastrado!')
     
     def botaoBusca(self):
+        pes = []
         cpf = self.tela_busca_cliente.lineEdit.text()
         client_socket.send('busca_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
-        pessoa = pessoa.split(',')
         #pessoa = self.ban.busca_clie(cpf)
         if(pessoa != 'erro'):
-            self.tela_busca_cliente.lineEdit_2.setText(pessoa[0])
-            self.tela_busca_cliente.lineEdit_3.setText(pessoa[3])
+            pes = pessoa.split(',')
+            self.tela_busca_cliente.lineEdit_2.setText(pes[0])
+            self.tela_busca_cliente.lineEdit_3.setText(pes[3])
 
         else:
             QMessageBox.information(None,'Banco','CPF não encontrado!')
@@ -284,14 +286,15 @@ class Main(QMainWindow,Ui_Main):
             QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
 
     def botaoTransfere(self):
+        dest = []
         #num = self.tela_transf.InpNum.text()
         valor = float(self.tela_transf.InpVal.text())
         destino = self.tela_transf.InpDest.text()
         client_socket.send('busca_cnta,{}'.format(destino).encode())
         des = client_socket.recv(1024).decode()
         if (des != 'erro'):
-            des = des.split(',')
-            client_socket.send('transfere,{},{},{}'.format(self.loginConta,des[0],valor).encode())
+            dest = des.split(',')
+            client_socket.send('transfere,{},{},{}'.format(self.loginConta,dest[0],valor).encode())
             trans = client_socket.recv(1024).decode()
             if(trans == 'sucesso'):
                 #self.loginConta.transfere(valor,destino)
