@@ -249,10 +249,10 @@ class Main(QMainWindow,Ui_Main):
         client_socket.send('busc_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
         #pessoa = self.ban.busca_clie(cpf)
+        pes = pessoa.split(',')
         if(pessoa != 'erro'):
-            pes = pessoa.split(',')
             self.tela_busca_cliente.lineEdit_2.setText(pes[0])
-            self.tela_busca_cliente.lineEdit_3.setText(pes[3])
+            self.tela_busca_cliente.lineEdit_3.setText(pes[2])
 
         else:
             QMessageBox.information(None,'Banco','CPF não encontrado!')
@@ -292,8 +292,8 @@ class Main(QMainWindow,Ui_Main):
         destino = self.tela_transf.InpDest.text()
         client_socket.send('busc_cnta,{}'.format(destino).encode())
         des = client_socket.recv(1024).decode()
+        dest = des.split(',')
         if (des != 'erro'):
-            dest = des.split(',')
             client_socket.send('transfere,{},{},{}'.format(self.loginConta,dest[0],valor).encode())
             trans = client_socket.recv(1024).decode()
             if(trans == 'sucesso'):
