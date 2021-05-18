@@ -211,7 +211,7 @@ class Main(QMainWindow,Ui_Main):
         num = self.tela_acesso.InpNum.text()
 
         if not(num == ''):
-            client_socket.send('busca_cnta,{}'.format(num).encode())
+            client_socket.send('busc_cnta,{}'.format(num).encode())
             existe = client_socket.recv(1024).decode()
             #existe = self.ban.busca_conta(num)
             if(existe != 'erro'):
@@ -231,7 +231,7 @@ class Main(QMainWindow,Ui_Main):
     def botaoLogin(self):
         pes = []
         cpf = self.tela_login.lineEdit.text()
-        client_socket.send('busca_clie,{}'.format(cpf).encode())
+        client_socket.send('busc_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
         #pessoa = self.ban.busca_clie(cpf)
         if pessoa != 'erro':
@@ -246,7 +246,7 @@ class Main(QMainWindow,Ui_Main):
     def botaoBusca(self):
         pes = []
         cpf = self.tela_busca_cliente.lineEdit.text()
-        client_socket.send('busca_clie,{}'.format(cpf).encode())
+        client_socket.send('busc_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
         #pessoa = self.ban.busca_clie(cpf)
         if(pessoa != 'erro'):
@@ -290,7 +290,7 @@ class Main(QMainWindow,Ui_Main):
         #num = self.tela_transf.InpNum.text()
         valor = float(self.tela_transf.InpVal.text())
         destino = self.tela_transf.InpDest.text()
-        client_socket.send('busca_cnta,{}'.format(destino).encode())
+        client_socket.send('busc_cnta,{}'.format(destino).encode())
         des = client_socket.recv(1024).decode()
         if (des != 'erro'):
             dest = des.split(',')
