@@ -264,9 +264,9 @@ class Main(QMainWindow,Ui_Main):
         #num = self.tela_saque.InpNum.text()
         valor = float(self.tela_saque.InpVal.text())
         client_socket.send('saque,{},{}'.format(self.loginConta,valor).encode())
-        saq = client_socket.recv(1024).decode
+        saq = client_socket.recv(1024).decode()
         #saq = self.loginConta.saca(valor)
-        if saq =='sucesso':
+        if (saq == 'sucesso'):
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
             self.tela_saque.InpVal.setText('')
             self.abrirMenuConta()
@@ -299,7 +299,7 @@ class Main(QMainWindow,Ui_Main):
         if (des != 'erro'):
             client_socket.send('transfere,{},{},{}'.format(self.loginConta,valor,dest[0]).encode())
             trans = client_socket.recv(1024).decode()
-            if(trans == 'erro'):
+            if(trans == 'sucesso'):
                 #self.loginConta.transfere(valor,destino)
                 QMessageBox.information(None,'Banco','Transferencia executada!')
                 #self.tela_transf.InpNum.setText('')
