@@ -56,7 +56,7 @@ class Banco:
         cnta = self.busca_conta(num)
         if cnta != None:
             saq = cnta.saca(valor)
-            return saq
+            return True
         else:
             return False
 
