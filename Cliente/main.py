@@ -211,11 +211,13 @@ class Main(QMainWindow,Ui_Main):
         num = self.tela_acesso.InpNum.text()
 
         if not(num == ''):
-            client_socket.send('busc_cnta,{}'.format(num).encode())
-            existe = client_socket.recv(1024).decode()
+            cnta = []
+            client_socket.send('busca_cnta,{}'.format(num).encode())
+            conta = client_socket.recv(1024).decode()
+            cnta = conta.split(',')
             #existe = self.ban.busca_conta(num)
-            if(existe != 'erro'):
-                if(existe.titular.cpf == self.loginClien.cpf):
+            if(conta != 'erro'):
+                if(cnta[1] == self.loginClien):
                     self.loginConta = num
                     self.num = num
                     self.abrirMenuConta()
