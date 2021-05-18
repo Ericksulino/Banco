@@ -263,7 +263,7 @@ class Main(QMainWindow,Ui_Main):
     def botaoSaque(self):
         #num = self.tela_saque.InpNum.text()
         valor = float(self.tela_saque.InpVal.text())
-        client_socket.send('saque {},{}'.format(self.loginClie,valor).encode())
+        client_socket.send('saque,{},{}'.format(self.loginConta,valor).encode())
         saq = client_socket.recv(1024).decode
         #saq = self.loginConta.saca(valor)
         if saq == 'sucesso':
@@ -277,7 +277,7 @@ class Main(QMainWindow,Ui_Main):
     def botaoDeposito(self):
         num = self.tela_deposito.InpNum.text()
         valor = float(self.tela_deposito.lineEdit.text())
-        client_socket.send('deposita {}'.format(num,valor).encode())
+        client_socket.send('deposita,{}'.format(num,valor).encode())
         dep = client_socket.recv(1024).decode()
         #dep = self.ban.deposita(num,valor)
         if dep=='sucesso':
@@ -325,7 +325,7 @@ class Main(QMainWindow,Ui_Main):
 
     def botaoHistorico(self):
         self.abrirTelaHist()
-        client_socket.send('historic,{},'.format(self.loginConta).encode())
+        client_socket.send('historic,{}'.format(self.loginConta).encode())
         hist = client_socket.recv(1024).decode()
         #x = self.loginConta.ver_historico()
         self.tela_histo.textEdit.setText(hist)
