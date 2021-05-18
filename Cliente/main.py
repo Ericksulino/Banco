@@ -269,7 +269,7 @@ class Main(QMainWindow,Ui_Main):
         if saq == 'sucesso':
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
             self.tela_acesso.InpNum.setText('')
-            self.abrirMenuConta
+            self.abrirMenuConta()
         else:
             QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
         
@@ -283,7 +283,7 @@ class Main(QMainWindow,Ui_Main):
         if dep=='sucesso':
                 QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
                 self.tela_acesso.InpNum.setText('')
-                self.abrirMenuConta
+                self.abrirMenuConta()
         else:
             QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
 
