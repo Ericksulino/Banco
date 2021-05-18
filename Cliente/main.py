@@ -268,7 +268,7 @@ class Main(QMainWindow,Ui_Main):
         #saq = self.loginConta.saca(valor)
         if saq == 'sucesso':
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
-            self.tela_acesso.InpNum.setText('')
+            self.tela_saque.InpVal.setText('')
             self.abrirMenuConta()
         else:
             QMessageBox.information(None,'Banco','Não foi possível realizar o saque!')
@@ -282,7 +282,8 @@ class Main(QMainWindow,Ui_Main):
         #dep = self.ban.deposita(num,valor)
         if dep=='sucesso':
                 QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
-                self.tela_acesso.InpNum.setText('')
+                self.tela_deposito.InpNum.setText('')
+                self.tela_deposito.lineEdit.setText('')
                 self.abrirMenuConta()
         else:
             QMessageBox.information(None,'Banco','Não foi possível realizar o deposito!')
