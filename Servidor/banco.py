@@ -63,8 +63,8 @@ class Banco:
     def deposita(self,num,valor):
         cnta = self.busca_conta(num)
         if cnta != None:
-            saq = cnta.deposita(valor)
-            return True
+            dep = cnta.deposita(valor)
+            return dep
         else:
             return False
     
