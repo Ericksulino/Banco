@@ -39,8 +39,8 @@ while(running):
         else:
             con.send('sucesso'.encode())
     
-    elif msg[0] == 'transfere': # ,num,numDest,valor
-        if not(ban.transfere(msg[1],msg[2],float(msg[3]))):
+    elif msg[0] == 'transfere': # ,num,valor,numDest
+        if not(ban.transfere(msg[1],float(msg[2]),msg[3])):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
