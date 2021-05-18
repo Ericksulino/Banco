@@ -277,7 +277,7 @@ class Main(QMainWindow,Ui_Main):
     def botaoDeposito(self):
         num = self.tela_deposito.InpNum.text()
         valor = float(self.tela_deposito.lineEdit.text())
-        client_socket.send('deposita,{}'.format(num,valor).encode())
+        client_socket.send('deposita,{},{}'.format(num,valor).encode())
         dep = client_socket.recv(1024).decode()
         #dep = self.ban.deposita(num,valor)
         if dep=='sucesso':
@@ -296,7 +296,7 @@ class Main(QMainWindow,Ui_Main):
         des = client_socket.recv(1024).decode()
         dest = des.split(',')
         if (des != 'erro'):
-            client_socket.send('transfere,{},{},{}'.format(self.loginConta,dest[0],valor).encode())
+            client_socket.send('transfere,{},{},{}'.format(self.loginConta,valor,dest[0]).encode())
             trans = client_socket.recv(1024).decode()
             if(trans == 'sucesso'):
                 #self.loginConta.transfere(valor,destino)
