@@ -68,7 +68,7 @@ class Conta():
             return False
         else:
             destino.deposita(valor)
-            self.historico.adicionar_transacao(f" - Transferiu {valor} para {destino.titular.nome}\n")
+            self.historico.adicionar_transacao(f" - Transferiu {valor} para {destino.titular}\n")
             return True
 
     def ver_historico(self):

@@ -298,10 +298,10 @@ class Main(QMainWindow,Ui_Main):
         if (des != 'erro'):
             client_socket.send('transfere,{},{},{}'.format(self.loginConta,valor,dest[0]).encode())
             trans = client_socket.recv(1024).decode()
-            if(trans == 'sucesso'):
+            if(trans == 'erro'):
                 #self.loginConta.transfere(valor,destino)
                 QMessageBox.information(None,'Banco','Transferencia executada!')
-                self.tela_transf.InpNum.setText('')
+                #self.tela_transf.InpNum.setText('')
                 self.tela_transf.InpVal.setText('')
                 self.tela_transf.InpDest.setText('')
                 self.abrirMenuConta
