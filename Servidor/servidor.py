@@ -76,7 +76,7 @@ while(running):
         if cta==None:
             con.send('erro'.encode())
         else:
-            con.send('{},{},{}'.format(cta.numero,cta.titular,cta.saldo,cta.limite).encode())
+            con.send('{},{},{}'.format(cta.numero,cta.titular,cta.extrato,cta.limite).encode())
     
     elif msg[0] == 'historic': # ,num
         hist = ban.historico(msg[1])
