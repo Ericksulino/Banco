@@ -266,7 +266,7 @@ class Main(QMainWindow,Ui_Main):
         client_socket.send('saque,{},{}'.format(self.loginConta,valor).encode())
         saq = client_socket.recv(1024).decode
         #saq = self.loginConta.saca(valor)
-        if saq == 'sucesso':
+        if saq =='sucesso':
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
             self.tela_saque.InpVal.setText('')
             self.abrirMenuConta()
