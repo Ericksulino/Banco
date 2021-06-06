@@ -10,16 +10,17 @@ class Banco:
         #self._lista_clie = []
         #self._lista_contas = []
         sql = """CREATE TABLE IF NOT EXISTS clientes(nome text NOT NULL, cpf text NOT NULL, data_nascimento text NOT NULL);"""
-        sql = """CREATE TABLE IF NOT EXISTS contas(numero integer NOT NULL, titular text NOT NULL,saldo integer,limite integer, historico text);"""
+        sql2 = """CREATE TABLE IF NOT EXISTS contas(numero integer NOT NULL, titular text NOT NULL,saldo integer,limite integer, historico text);"""
 
         cursor.execute(sql)
+        cursor.execute(sql2)
 
     def busca_conta(self,num):
         cursor.execute('SELECT * FROM cntas WHERE numero == (?)',(num))
         '''for lp in self._lista_contas:
             if lp.numero == num:
                 return lp'''
-                
+
         return None
     
     def busca_clie(self,cpf):
