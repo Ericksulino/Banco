@@ -1,3 +1,4 @@
+from sqlite3.dbapi2 import Error
 from pessoa import Cliente
 from conta import Conta
 import sqlite3
@@ -16,12 +17,19 @@ class Banco:
         cursor.execute(sql2)
 
     def busca_conta(self,num):
-        cursor.execute('SELECT * FROM cntas WHERE numero == (?)',(num))
-        '''for lp in self._lista_contas:
-            if lp.numero == num:
-                return lp'''
+        try:
+            cursor.execute('SELECT * FROM cntas WHERE numero == (?)',(num))
+            return 'TENHO QUE RETORNAR UM OBJETO CONTA'
+            ''' for lp in self._lista_contas:
+                    if lp.numero == num:
+                        return lp
 
-        return None
+                return None'''
+
+        except Error as ex:
+            return None
+            #print(ex)
+
     
     def busca_clie(self,cpf):
         for lp in self._lista_clie:
@@ -40,12 +48,18 @@ class Banco:
             return False
     
     def adicionar_cliente(self,clie):
-        existe = self.busca_clie(clie.cpf)
-        if (existe == None):
-            self._lista_clie.append(clie)
+        try:
+            cursor.execute('INSERT INTO clientes VALUES (?)',(clie))
             return True
+            '''existe = self.busca_clie(clie.cpf)
+            if (existe == None):
+                self._lista_clie.append(clie)
+                return True
 
-        else:
+            else:
+                return False'''
+        except Error as ex:
+            #print(ex)
             return False
 
     def transfere(self,num,valor,numDest):
@@ -96,4 +110,4 @@ class Banco:
             return hist
             
                 
-ban = Banco()
+#ban = Banco()
