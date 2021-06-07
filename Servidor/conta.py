@@ -1,9 +1,12 @@
 from historico import Historico
-class Conta():
+from datetime import datetime
+from pessoa import Cliente
 
-    _total_contas = 0
+class Conta:
 
-    __slots__ = ['_numero','_titular','_saldo','_limite','_historico']
+    #_total_contas = 0
+
+    #__slots__ = ['_numero','_titular','_saldo','_limite','_historico']
     def __init__(self,numero,titular,saldo,limite = 1000.0):
         self._numero = numero
         self._titular = titular

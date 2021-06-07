@@ -1,5 +1,8 @@
+from os import curdir
 import socket
-from banco import Banco
+import sqlite3
+from sqlite3.dbapi2 import Cursor
+#from banco import Banco
 from pessoa import Cliente
 from conta import Conta
 
@@ -7,7 +10,7 @@ host = 'localhost'
 port = 8001
 addr = ((host,port))
 serv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-ban = Banco()
+#ban = Banco()
 serv_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 serv_socket.bind(addr)
 serv_socket.listen(10)
@@ -17,6 +20,18 @@ print("aguardando conexão...")
 con, cliente = serv_socket.accept()
 print("conectado")
 print("aguardando mensagem...")
+
+bd = sqlite3.connect('bd.sqçite')
+cursor = bd.cursor()
+
+pessoas = """CREATE TABLE IF NOT EXISTS pessoas(id integir PRIMARY KEY,nome text NOT NULL,cpf text NOT NULL,data_nascimento text NOT NULL);"""
+contas = """CREATE TABLE IF NOT EXISTS contas(id integir PRIMARY KEY,numero text NOT NULL,titular text NOT NULL,saldo float NOT NULL,historico text NOT NULL);"""
+historico = """CREATE TABLE IF NOT EXISTS historico(id integer PRIMARY KEY,transacoes text NOT NULL);"""
+
+cursor.execute(pessoas)
+cursor.execute(contas)
+cursor.execute(historico)
+
 running = True
 while(running):
     recebe = con.recv(1024)
@@ -26,6 +41,9 @@ while(running):
         running = False
 
     elif msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
+        
+        # PAREI AQUI
+
         clie = Cliente(msg[1],msg[2],msg[3])
         if not(ban.adicionar_cliente(clie)):
             con.send('erro'.encode())
