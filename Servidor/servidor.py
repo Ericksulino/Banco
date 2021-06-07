@@ -41,23 +41,18 @@ while(running):
         running = False
 
     elif msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
-        #
-        #
-        #
-        # PAREI AQUI
-        #
-        #
-        #
 
-        clie = Cliente(msg[1],msg[2],msg[3])
-        if not(ban.adicionar_cliente(clie)):
+        #clie = Cliente(msg[1],msg[2],msg[3])
+        if not(Cliente.cadastrar(msg[1],msg[2],msg[3],cursor)):
+        #if not(ban.adicionar_cliente(clie)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
     elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
-        cnta = Conta(msg[1],msg[2],float(msg[3]),float(msg[4]))
-        if not(ban.adcionar_conta(cnta)):
+        #cnta = Conta(msg[1],msg[2],float(msg[3]),float(msg[4]))
+        #if not(ban.adcionar_conta(cnta)):
+        if not Conta.abrir_conta()
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
