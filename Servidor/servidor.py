@@ -41,8 +41,13 @@ while(running):
         running = False
 
     elif msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
-        
+        #
+        #
+        #
         # PAREI AQUI
+        #
+        #
+        #
 
         clie = Cliente(msg[1],msg[2],msg[3])
         if not(ban.adicionar_cliente(clie)):
