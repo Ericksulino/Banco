@@ -35,14 +35,14 @@ class Cliente:
     def data_nascimento(self,dt):
         self._data_nascimento = dt'''
 
-    def cadastrar(nome:str,cpf:str,data_nascimento:str,cursor):
+    def cadast_clie(nome:str,cpf:str,data_nascimento:str,cursor):
 
         if Cliente.busca_pessoa(cpf,cursor) == False:
             cursor.execute("INSERT INTO pessoas(nome,cpf,data_nascimento) VALUES(?,?,?)",(nome,cpf,data_nascimento))
             return True
         return False
 
-    def busca_pessoa(buscar_cpf:str,cursor):
+    def busca_clie(buscar_cpf:str,cursor):
 
         pessoa = list(cursor.execute("SELECT * FROM pessoas WHERE cpf = {}".format(buscar_cpf)))
         if (len(pessoa)!=0):
