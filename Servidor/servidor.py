@@ -25,12 +25,19 @@ bd = sqlite3.connect('bd.sqçite')
 cursor = bd.cursor()
 
 pessoas = """CREATE TABLE IF NOT EXISTS pessoas(id integir PRIMARY KEY,nome text NOT NULL,cpf text NOT NULL,data_nascimento text NOT NULL);"""
-contas = """CREATE TABLE IF NOT EXISTS contas(id integir PRIMARY KEY,numero text NOT NULL,titular text NOT NULL,saldo float NOT NULL,data_abertura text NOT NULL);"""
+contas = """CREATE TABLE IF NOT EXISTS contas(id integir PRIMARY KEY,numero text NOT NULL,titular text NOT NULL,saldo float NOT NULL);"""
 historico = """CREATE TABLE IF NOT EXISTS historico(id integer PRIMARY KEY,transacoes text NOT NULL);"""
 
 cursor.execute(pessoas)
 cursor.execute(contas)
 cursor.execute(historico)
+
+def validaConta(num,cursor):
+    cnta = Conta.busca_conta(num,cursor)
+    if(cnta!=False):
+        return cnta
+    else:
+        return None
 
 running = True
 while(running):
@@ -43,15 +50,14 @@ while(running):
     elif msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
 
         #clie = Cliente(msg[1],msg[2],msg[3])
-        if not(Cliente.cadastrar(msg[1],msg[2],msg[3],cursor)):
+        if not(Cliente.cadast_clie(msg[1],msg[2],msg[3],cursor)):
         #if not(ban.adicionar_cliente(clie)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
     elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
-        #cnta = Conta(msg[1],msg[2],float(msg[3]),float(msg[4]))
-        #if not(ban.adcionar_conta(cnta)):
+        pesso = Cliente.busca_pessoa
         if not Conta.abrir_conta()
             con.send('erro'.encode())
         else:
