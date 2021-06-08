@@ -56,12 +56,8 @@ class Conta:
         self._historico = hist
 
     #Pronto
-    def abrir_conta(id_cliente:int, cursor):
-
-        conta = Conta(id_cliente)
-
-        print(conta._saldo)
-        cursor.execute("INSERT INTO contas(numero,titular,saldo,limite,data_abertura) VALUES (?,?,?,?)",(conta.numero,conta.titular,conta.saldo,conta.limite,conta._data_abertura))
+    def abrir_conta(num,tit,sald,lim,cursor):
+        cursor.execute("INSERT INTO contas(numero,titular,saldo,limite) VALUES (?,?,?)",(num,tit,sald,lim)
         return conta._numero
 
     '''def deposita(self, valor):
@@ -72,22 +68,18 @@ class Conta:
         else: return False'''
     
     #Pronto
-    def saca(id_conta, valor:float,cursor,controle)->bool:
+    def saca(cnta, valor:float,cursor,controle)->bool:
 
-        saldo = list(cursor.execute("SELECT saldo FROM contas WHERE id = {}".format(id_conta)))[0][0]
+        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE id = "{}"'.format(cnta)))[0][0]
         if valor <= saldo and valor > 0:
             saldo -= valor
-            cursor.execute('UPDATE contas SET saldo = ? WHERE id = ?;'.format(saldo,id_conta))
+            cursor.execute('UPDATE contas SET saldo = "{}" WHERE id = "{}"'.format(saldo,cnta))
             if controle:
-                nova_transacao = 'Saque -- Data: {} Valor: {}\n'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
+                nova_transacao = 'Saque -- Data: "{}" Valor: "{}"\n'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(id_conta,nova_transacao,cursor)
             return True
         return False
-        '''if valor<=self._saldo:
-            self._saldo-=valor
-            self.historico.adicionar_transacao(f" - Sacou: {valor}\n")
-            return True
-        else: return False'''
+        
     #Pronto
     def deposita(id_conta:str,valor:float,cursor,controle)->bool:
         saldo = list(cursor.execute("SELECT saldo FROM contas WHERE id = '{}'".format(id_conta)))[0][0]
@@ -99,16 +91,6 @@ class Conta:
                 Historico.adicionar_transacao(id_conta,nova_transacao,cursor)
             return True
         return False
-
-    #Pronto
-    '''def transfere(self,valor,destino):
-        retirar = self.saca(valor)
-        if retirar == False:
-            return False
-        else:
-            destino.deposita(valor)
-            self.historico.adicionar_transacao(f" - Transferiu {valor} para {destino.titular}\n")
-            return True'''
 
     def transfere(id_conta:int,valor:float,destino:str,cursor)->bool:
         if Conta.saca(id_conta,valor,cursor,False):
