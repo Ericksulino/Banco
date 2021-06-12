@@ -21,7 +21,7 @@ con, cliente = serv_socket.accept()
 print("conectado")
 print("aguardando mensagem...")
 
-bd = sqlite3.connect('bd.sqçite')
+bd = sqlite3.connect('bd.sqlite')
 cursor = bd.cursor()
 
 pessoas = """CREATE TABLE IF NOT EXISTS pessoas(id integir PRIMARY KEY,nome text NOT NULL,cpf text NOT NULL,data_nascimento text NOT NULL);"""
