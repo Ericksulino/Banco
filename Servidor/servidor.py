@@ -21,7 +21,7 @@ con, cliente = serv_socket.accept()
 print("conectado")
 print("aguardando mensagem...")
 
-bd = sqlite3.connect('bd.sqçite')
+bd = sqlite3.connect('bd_ban.sqçite')
 cursor = bd.cursor()
 
 pessoas = """CREATE TABLE IF NOT EXISTS pessoas(id integir PRIMARY KEY,nome text NOT NULL,cpf text NOT NULL,data_nascimento text NOT NULL);"""
@@ -85,7 +85,7 @@ while(running):
             con.send('sucesso'.encode())
 
     elif msg[0] == 'saldo': # ,num
-        extr = ban.extrato(msg[1])
+        extr = Conta.extrato(msg[1],cursor)
         if extr == None:
             con.send('erro'.encode())
         else:
@@ -100,7 +100,7 @@ while(running):
             #con.send('{},{},{}'.format(cli.nome,cli.cpf,cli.data_nascimento).encode())
     
     elif msg[0] == 'busca_cnta': # ,num 
-        cta = Conta.busca_conta(msg[1])
+        cta = Conta.busca_conta(msg[1],cursor)
         if cta==False:
             con.send('erro'.encode())
         else:
