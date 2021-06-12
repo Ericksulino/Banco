@@ -240,7 +240,7 @@ class Main(QMainWindow,Ui_Main):
             pes = pessoa.split(',')
             self.loginClien = cpf
             self.abrirTelaAcess()
-            self.tela_acesso.OutNom.setText(pes[0])
+            #self.tela_acesso.OutNom.setText(pes[0])
             self.tela_login.lineEdit.setText('')
         else:
             QMessageBox.information(None,'Banco','O CPF informado não se encontra cadastrado!')
