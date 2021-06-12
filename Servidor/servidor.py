@@ -25,7 +25,7 @@ bd = sqlite3.connect('bd.sqçite')
 cursor = bd.cursor()
 
 pessoas = """CREATE TABLE IF NOT EXISTS pessoas(id integir PRIMARY KEY,nome text NOT NULL,cpf text NOT NULL,data_nascimento text NOT NULL);"""
-contas = """CREATE TABLE IF NOT EXISTS contas(id integir PRIMARY KEY,numero text NOT NULL,titular text NOT NULL,saldo float NOT NULL);"""
+contas = """CREATE TABLE IF NOT EXISTS contas(id integir PRIMARY KEY,numero text NOT NULL,titular text NOT NULL,saldo float NOT NULL,limite float NOT NULL);"""
 historico = """CREATE TABLE IF NOT EXISTS historico(id integer PRIMARY KEY,transacoes text NOT NULL);"""
 
 cursor.execute(pessoas)
@@ -57,8 +57,8 @@ while(running):
             con.send('sucesso'.encode())
     
     elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
-        pesso = Cliente.busca_pessoa
-        if not Conta.abrir_conta()
+        #pesso = Cliente.busca_pessoa
+        if not (Conta.abrir_conta(msg[1],msg[2],msg[3],msg[3],cursor)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
@@ -89,7 +89,7 @@ while(running):
             con.send(str(extr).encode())
 
     elif msg[0] == 'busc_clie': # ,cpf
-        cli = ban.busca_clie(msg[1])
+        cli = Cliente.busca_clie(msg[1],cursor)
         if cli == None:
             con.send('erro'.encode())
         else:
