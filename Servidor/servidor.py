@@ -64,19 +64,22 @@ while(running):
             con.send('sucesso'.encode())
     
     elif msg[0] == 'transfere': # ,num,numDest,valor
-        if not(ban.transfere(msg[1],float(msg[2]),msg[3])):
+        #if not(ban.transfere(msg[1],float(msg[2]),msg[3])):
+        if not(Conta.transfere(msg[1],float(msg[2]),msg[3]),cursor):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
     elif msg[0] == 'saque': # ,num,valor
-        if not(ban.saque(msg[1],float(msg[2]))):
+        #if not(ban.saque(msg[1],float(msg[2]))):
+        if not(Conta.saca(msg[1],float(msg[2]),cursor)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
     
     elif msg[0] == 'deposita': # ,num,valor
-        if not(ban.deposita(msg[1],float(msg[2]))):
+        #if not(ban.deposita(msg[1],float(msg[2]))):
+        if not(Conta.deposita(msg[1],float(msg[2]),cursor)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
@@ -90,17 +93,19 @@ while(running):
 
     elif msg[0] == 'busc_clie': # ,cpf
         cli = Cliente.busca_clie(msg[1],cursor)
-        if cli == None:
+        if cli == False:
             con.send('erro'.encode())
         else:
-            con.send('{},{},{}'.format(cli.nome,cli.cpf,cli.data_nascimento).encode())
+            con.send('sucesso'.encode())
+            #con.send('{},{},{}'.format(cli.nome,cli.cpf,cli.data_nascimento).encode())
     
     elif msg[0] == 'busca_cnta': # ,num 
-        cta = ban.busca_conta(msg[1])
-        if cta==None:
+        cta = Conta.busca_conta(msg[1])
+        if cta==False:
             con.send('erro'.encode())
         else:
-            con.send('{},{},{}'.format(cta.numero,cta.titular,cta.extrato,cta.limite).encode())
+            con.send('sucesso'.encode())
+            #con.send('{},{},{}'.format(cta.numero,cta.titular,cta.extrato,cta.limite).encode())
     
     elif msg[0] == 'historic': # ,num
         hist = ban.historico(msg[1])
