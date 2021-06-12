@@ -125,5 +125,5 @@ class Conta:
     def ver_historico(self):
         return self.historico.imprimir_transacoes()
 
-    def extrato(self):
-        return self._saldo
+    def extrato(self,cnta,cursor):
+        return list(cursor.execute('SELECT saldo FROM contas WHERE id = "{}"'.format(cnta)))[0][0]
