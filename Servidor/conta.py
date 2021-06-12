@@ -71,7 +71,7 @@ class Conta:
         else: return False'''
     
     #Pronto
-    def saca(cnta, valor:float,cursor,controle)->bool:
+    def saca(cnta, valor:float,cursor)->bool:
 
         saldo = list(cursor.execute('SELECT saldo FROM contas WHERE id = "{}"'.format(cnta)))[0][0]
         if valor <= saldo and valor > 0:
@@ -84,7 +84,7 @@ class Conta:
         return False
         
     #Pronto
-    def deposita(id_conta:str,valor:float,cursor,controle)->bool:
+    def deposita(id_conta:str,valor:float,cursor)->bool:
         saldo = list(cursor.execute("SELECT saldo FROM contas WHERE id = '{}'".format(id_conta)))[0][0]
         if valor > 0:
             saldo += valor
