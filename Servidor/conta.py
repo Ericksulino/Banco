@@ -57,8 +57,11 @@ class Conta:
 
     #Pronto
     def abrir_conta(num,tit,sald,lim,cursor):
-        cursor.execute("INSERT INTO contas(numero,titular,saldo,limite) VALUES (?,?,?)",(num,tit,sald,lim)
-        return conta._numero
+        if not(Conta.busca_conta(num,cursor)):
+            cursor.execute("INSERT INTO contas(numero,titular,saldo,limite) VALUES (?,?,?,?)",(num,tit,sald,lim))
+            return True
+        else:
+            return False
 
     '''def deposita(self, valor):
         if valor+self._saldo<=self.limite:
