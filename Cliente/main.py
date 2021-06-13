@@ -1,3 +1,4 @@
+from sqlite3.dbapi2 import Cursor
 import sys
 import os
 

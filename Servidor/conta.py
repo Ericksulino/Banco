@@ -71,15 +71,17 @@ class Conta:
         else: return False'''
     
     #Pronto
-    def saca(cnta, valor:float,cursor)->bool:
+    def saca(cnta:str,valor:float,cursor)->bool:
 
-        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE id = {}'.format(cnta)))[0][0]
+        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
         if valor <= saldo and valor > 0:
             saldo -= valor
-            cursor.execute('UPDATE contas SET saldo = "{}" WHERE id = "{}"'.format(saldo,cnta))
-            if controle:
-                nova_transacao = 'Saque -- Data: "{}" Valor: "{}"\n'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
-                Historico.adicionar_transacao(id_conta,nova_transacao,cursor)
+            cursor.execute('UPDATE contas SET saldo = "{}" WHERE numero = "{}"'.format(saldo,cnta))
+            
+            #titular = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
+
+            nova_transacao = 'Saque -- Data: "{}" Valor: "{}"\n'.format((datetime.now().strftime('%d/%m/%Y %H:%M')),valor)
+            Historico.adicionar_transacao(nova_transacao,cursor)
             return True
         return False
 
@@ -124,5 +126,5 @@ class Conta:
     def ver_historico(self):
         return self.historico.imprimir_transacoes()
 
-    def extrato(self,cnta,cursor):
-        return list(cursor.execute('SELECT saldo FROM contas WHERE id = "{}"'.format(cnta)))[0][0]
+    def extrato(cnta:str,cursor):
+        return list(cursor.execute('SELECT saldo FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
