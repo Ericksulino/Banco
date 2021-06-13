@@ -55,6 +55,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
+            bd.commit()
     
     elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
         #pesso = Cliente.busca_pessoa
@@ -62,6 +63,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
+            bd.commit()
     
     elif msg[0] == 'transfere': # ,num,numDest,valor
         #if not(ban.transfere(msg[1],float(msg[2]),msg[3])):
@@ -69,6 +71,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
+            bd.commit()
     
     elif msg[0] == 'saque': # ,num,valor
         #if not(ban.saque(msg[1],float(msg[2]))):
@@ -76,6 +79,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
+            bd.commit()
     
     elif msg[0] == 'deposita': # ,num,valor
         #if not(ban.deposita(msg[1],float(msg[2]))):
@@ -83,6 +87,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
+            bd.commit()
 
     elif msg[0] == 'saldo': # ,num
         extr = Conta.extrato(msg[1],cursor)
@@ -90,6 +95,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send(str(extr).encode())
+            bd.commit()
 
     elif msg[0] == 'busc_clie': # ,cpf
         cli = Cliente.busca_clie(msg[1],cursor)
@@ -97,6 +103,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
+            bd.commit()
             #con.send('{},{},{}'.format(cli.nome,cli.cpf,cli.data_nascimento).encode())
     
     elif msg[0] == 'busca_cnta': # ,num 
@@ -105,6 +112,7 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
+            bd.commit()
             #con.send('{},{},{}'.format(cta.numero,cta.titular,cta.extrato,cta.limite).encode())
     
     elif msg[0] == 'historic': # ,num
@@ -113,6 +121,9 @@ while(running):
             con.send('erro'.encode())
         else:
             con.send(hist.encode())
+            
+bd.close()
+
 serv_socket.close()
 
 
