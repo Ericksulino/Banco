@@ -214,15 +214,15 @@ class Main(QMainWindow,Ui_Main):
             cnta = []
             client_socket.send('busca_cnta,{}'.format(num).encode())
             conta = client_socket.recv(1024).decode()
-            cnta = conta.split(',')
+            #cnta = conta.split(',')
             #existe = self.ban.busca_conta(num)
             if(conta != 'erro'):
-                if(cnta[1] == self.loginClien):
+                #if(cnta == self.loginClien):
                     self.loginConta = num
                     self.num = num
                     self.abrirMenuConta()
-                else:
-                   QMessageBox.information(None,'Banco','O numero da conta informado não está atrelado a esse CPF!') 
+                #else:
+                   #QMessageBox.information(None,'Banco','O numero da conta informado não está atrelado a esse CPF!') 
             else:
                 QMessageBox.information(None,'Banco','O numero da conta informado não existe!')
                 self.tela_acesso.InpNum.setText('')
@@ -315,7 +315,7 @@ class Main(QMainWindow,Ui_Main):
         '''num = self.tela_extrato.InpNum.text()
         tit = self.tela_extrato.OutTit.text()'''
         self.abrirTelaExtr()
-        client_socket.send('saldo,{},'.format(self.loginConta).encode())
+        client_socket.send('saldo,{}'.format(self.loginConta).encode())
         extr = client_socket.recv(1024).decode()
         #extr = str(self.loginConta.extrato())
         #if(self.loginConta!=None):
