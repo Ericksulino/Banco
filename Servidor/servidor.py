@@ -102,7 +102,7 @@ while(running):
         if cli == False:
             con.send('erro'.encode())
         else:
-            con.send('sucesso'.encode())
+            con.send(f'{cli}'.encode())
             bd.commit()
             #con.send('{},{},{}'.format(cli.nome,cli.cpf,cli.data_nascimento).encode())
     
@@ -111,7 +111,7 @@ while(running):
         if cta==False:
             con.send('erro'.encode())
         else:
-            con.send('sucesso'.encode())
+            con.send(f'{cta}'.encode())
             bd.commit()
             #con.send('{},{},{}'.format(cta.numero,cta.titular,cta.extrato,cta.limite).encode())
     
