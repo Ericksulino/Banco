@@ -1,3 +1,4 @@
+from historico import Historico
 from os import curdir
 import socket
 import sqlite3
@@ -26,7 +27,7 @@ cursor = bd.cursor()
 
 pessoas = """CREATE TABLE IF NOT EXISTS pessoas(id integir PRIMARY KEY,nome text NOT NULL,cpf text NOT NULL,data_nascimento text NOT NULL);"""
 contas = """CREATE TABLE IF NOT EXISTS contas(id integir PRIMARY KEY,numero text NOT NULL,titular text NOT NULL,saldo float NOT NULL,limite float NOT NULL);"""
-historico = """CREATE TABLE IF NOT EXISTS historico(id integer PRIMARY KEY,transacoes text NOT NULL);"""
+historico = """CREATE TABLE IF NOT EXISTS historico(id integir PRIMARY KEY,numero_conta text NOT NULL,transacoes text NOT NULL);"""
 
 cursor.execute(pessoas)
 cursor.execute(contas)
@@ -67,7 +68,7 @@ while(running):
     
     elif msg[0] == 'transfere': # ,num,numDest,valor
         #if not(ban.transfere(msg[1],float(msg[2]),msg[3])):
-        if not(Conta.transfere(msg[1],float(msg[2]),msg[3]),cursor):
+        if not(Conta.transfere(msg[1],float(msg[2]),msg[3],cursor)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
@@ -75,7 +76,7 @@ while(running):
     
     elif msg[0] == 'saque': # ,num,valor
         #if not(ban.saque(msg[1],float(msg[2]))):
-        if not(Conta.saca(msg[1],float(msg[2]),cursor)):
+        if not(Conta.saca(msg[1],float(msg[2]),cursor,True)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
@@ -83,7 +84,7 @@ while(running):
     
     elif msg[0] == 'deposita': # ,num,valor
         #if not(ban.deposita(msg[1],float(msg[2]))):
-        if not(Conta.deposita(msg[1],float(msg[2]),cursor)):
+        if not(Conta.deposita(msg[1],float(msg[2]),cursor,True)):
             con.send('erro'.encode())
         else:
             con.send('sucesso'.encode())
@@ -116,14 +117,12 @@ while(running):
             #con.send('{},{},{}'.format(cta.numero,cta.titular,cta.extrato,cta.limite).encode())
     
     elif msg[0] == 'historic': # ,num
-        hist = ban.historico(msg[1])
-        if hist==None:
+        hist = Historico.imprimir_transacoes(msg[1],cursor)
+        if hist == None:
             con.send('erro'.encode())
         else:
-            con.send(hist.encode())
+            con.send(f'{hist}'.encode())
             
 bd.close()
 
 serv_socket.close()
-
-

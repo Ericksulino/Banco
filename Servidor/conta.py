@@ -71,7 +71,7 @@ class Conta:
         else: return False'''
     
     #Pronto
-    def saca(cnta:str,valor:float,cursor)->bool:
+    def saca(cnta:str,valor:float,cursor,controle)->bool:
 
         saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
         if valor <= saldo and valor > 0:
@@ -79,48 +79,51 @@ class Conta:
             cursor.execute('UPDATE contas SET saldo = "{}" WHERE numero = "{}"'.format(saldo,cnta))
             
             #titular = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
-
-            nova_transacao = 'Saque -- Data: "{}" Valor: "{}"\n'.format((datetime.now().strftime('%d/%m/%Y %H:%M')),valor)
-            Historico.adicionar_transacao(nova_transacao,cursor)
+            if controle:
+                nova_transacao = 'Saque -- Data: "{}" Valor: "{}"\n'.format((datetime.now().strftime('%d/%m/%Y %H:%M')),valor)
+                Historico.adicionar_transacao(cnta,nova_transacao,cursor)
             return True
         return False
 
-    def deposita(id_conta:str,valor:float,cursor)->bool:
-        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE id={}'.format(id_conta)))[0][0]
+    def deposita(cnta:str,valor:float,cursor,controle)->bool:
+        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
         if valor > 0:
             saldo += valor
-            cursor.execute('UPDATE contas SET saldo = ? WHERE id = ?;'.format(saldo,id_conta))
+            cursor.execute('UPDATE contas SET saldo = "{}" WHERE numero = "{}"'.format(saldo,cnta))
             if controle:
-                nova_transacao = 'Deposito -- Data: {} Valor: {}'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
-                Historico.adicionar_transacao(id_conta,nova_transacao,cursor)
+                nova_transacao = 'Deposito -- Data: "{}" Valor: "{}"'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
+                Historico.adicionar_transacao(cnta,nova_transacao,cursor)
             return True
         return False
 
-    def transfere(id_conta:int,valor:float,destino:str,cursor)->bool:
-        if Conta.saca(id_conta,valor,cursor,False):
+    def transfere(cnta:str,valor:float,destino:str,cursor)->bool:
+        if Conta.saca(cnta,valor,cursor,False):
 
-            id_cliente = list(cursor.execute('SELECT nome FROM pessoas Where id = {}'.format(destino)))[0][0]
-            nome = list(cursor.execute('SELECT nome FROM pessoas WHERE id = {}'.format(id_cliente)))[0]
-            nova_transacao = 'Transferencia para {} -- Data: {} Valor: {} \n'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
-            Historico.adicionar_transacao(id_conta,nova_transacao,cursor)
+            if Conta.deposita(destino,valor,cursor,False):
 
-            id_cliente = list(cursor.execute('SELECT titular FROM contas WHERE id = {}'.format(id_conta)))[0][0]
-            nome = list(cursor.execute('SELECT nome FROM pessoas WHERE id = {}'.format(id_cliente)))[0]
+                aux = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(destino)))[0][0]
+                cliente = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = "{}"'.format(aux)))[0][0]
 
-            nova_transacao = 'Tranferencia recebida de {} -- Data: {} Valor: {} \n'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
-            Historico.adicionar_transacao(destino,nova_transacao,cursor)
+                nova_transacao = 'Transferencia para "{}" -- Data: "{}" Valor: "{}" \n'.format(cliente,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
+                Historico.adicionar_transacao(cnta,nova_transacao,cursor)
+                
+                aux2 = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
+                cliente2 = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = "{}"'.format(aux2)))[0][0]
+                
+                nova_transacao = 'Tranferencia recebida de "{}" -- Data: "{}" Valor: "{}" \n'.format(cliente2,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
+                Historico.adicionar_transacao(destino,nova_transacao,cursor)
 
-            return True
+                return True
         return False
 
     #Pronto
     def busca_conta(numero_bus:str,cursor):
 
-        busca = "SELECT * FROM contas WHERE numero = '{}'".format(numero_bus)
+        busca = 'SELECT numero FROM contas WHERE numero = "{}"'.format(numero_bus)
         cnt = list(cursor.execute(busca))
 
         if(len(cnt)!=0):
-            return cnt[0][0]
+            return True
         return False
 
     def ver_historico(self):

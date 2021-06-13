@@ -263,6 +263,7 @@ class Main(QMainWindow,Ui_Main):
 
     def botaoSaque(self):
         #num = self.tela_saque.InpNum.text()
+        #verivicar se valor nao e zero
         valor = float(self.tela_saque.InpVal.text())
         client_socket.send('saque,{},{}'.format(self.loginConta,valor).encode())
         saq = client_socket.recv(1024).decode()
@@ -298,7 +299,7 @@ class Main(QMainWindow,Ui_Main):
         des = client_socket.recv(1024).decode()
         dest = des.split(',')
         if (des != 'erro'):
-            client_socket.send('transfere,{},{},{}'.format(self.loginConta,valor,dest[0]).encode())
+            client_socket.send('transfere,{},{},{}'.format(self.loginConta,valor,destino).encode())
             trans = client_socket.recv(1024).decode()
             if(trans == 'sucesso'):
                 #self.loginConta.transfere(valor,destino)
