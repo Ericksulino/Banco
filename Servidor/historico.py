@@ -1,21 +1,21 @@
-import datetime
+from datetime import datetime
 
 class Historico:
 
     def init(self):
         self._historico = []
 
-        '''self._data_abertura = datetime.datetime.today()
-        self._transacoes = "Conta aberta em: {}\n Transações:\n".format(self._data_abertura)'''
-
     def adicionar_transacao(cnta:str,transacao:str,cursor):
         #self._transacoes +=trans
         cursor.execute('INSERT INTO historico(numero_conta,transacoes) VALUES (?,?)',(cnta,transacao))
 
     def imprimir_transacoes(cnta:str,cursor)-> list:
+        data_abertura = datetime.now().strftime('%d/%m/%Y %H:%M')
         historico = list(cursor.execute('SELECT transacoes FROM historico WHERE numero_conta = "{}"'.format(cnta)))
         h = []
+        h.append("Conta aberta em: {}".format(data_abertura))
+        h.append("Transações:")
         for i in historico:
             h.append(list(i)[0])
-        return h
+        return '\n'.join(h)
         #return self._transacoes
