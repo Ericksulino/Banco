@@ -80,7 +80,7 @@ class Conta:
             
             #titular = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
             if controle:
-                nova_transacao = 'Saque -- Data: "{}" Valor: "{}"\n'.format((datetime.now().strftime('%d/%m/%Y %H:%M')),valor)
+                nova_transacao = 'Saque -- Data: {} Valor: {}'.format((datetime.now().strftime('%d/%m/%Y %H:%M')),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
             return True
         return False
@@ -91,7 +91,7 @@ class Conta:
             saldo += valor
             cursor.execute('UPDATE contas SET saldo = "{}" WHERE numero = "{}"'.format(saldo,cnta))
             if controle:
-                nova_transacao = 'Deposito -- Data: "{}" Valor: "{}"'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
+                nova_transacao = 'Deposito -- Data: {} Valor: {}'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
             return True
         return False
@@ -104,13 +104,13 @@ class Conta:
                 aux = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(destino)))[0][0]
                 cliente = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = "{}"'.format(aux)))[0][0]
 
-                nova_transacao = 'Transferencia para "{}" -- Data: "{}" Valor: "{}" \n'.format(cliente,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
+                nova_transacao = 'Transferencia para {} -- Data: {} Valor: {}'.format(cliente,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
                 
                 aux2 = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
                 cliente2 = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = "{}"'.format(aux2)))[0][0]
                 
-                nova_transacao = 'Tranferencia recebida de "{}" -- Data: "{}" Valor: "{}" \n'.format(cliente2,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
+                nova_transacao = 'Tranferencia recebida de "{}" -- Data: {} Valor: {} '.format(cliente2,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(destino,nova_transacao,cursor)
 
                 return True
