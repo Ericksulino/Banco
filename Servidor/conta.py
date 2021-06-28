@@ -4,10 +4,6 @@ from pessoa import Cliente
 
 class Conta:
 
-    #_total_contas = 0
-
-    #__slots__ = ['_numero','_titular','_saldo','_limite','_historico']
-
     saldo_atualizado = "UPDATE contas SET saldo = ? WHERE id = ?"
 
     def __init__(self,numero:str,titular:str,saldo:float,limite:float):
@@ -17,11 +13,6 @@ class Conta:
         self._limite = limite
         self._data_abertura = str(datetime.now().strftime('%d/%m/%Y %H:%M'))
         self._historico = Historico()
-        #Conta._total_contas+=1
-
-    '''@staticmethod
-    def get_total_contas():
-        return Conta._total_contas'''
 
     @property
     def numero(self):
@@ -62,13 +53,6 @@ class Conta:
             return True
         else:
             return False
-
-    '''def deposita(self, valor):
-        if valor+self._saldo<=self.limite:
-            self._saldo+=valor
-            self.historico.adicionar_transacao(" - Depositou: {}\n".format(valor))
-            return True
-        else: return False'''
     
     #Pronto
     def saca(cnta:str,valor:float,cursor,controle)->bool:

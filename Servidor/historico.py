@@ -5,8 +5,8 @@ class Historico:
     def init(self):
         self._historico = []
 
-    def adicionar_transacao(cnta:str,transacao:str,cursor):
-        #self._transacoes +=trans
+    def adicionar_transacao(cnta:str,transacao:str,cursor)->None:
+
         cursor.execute('INSERT INTO historico(numero_conta,transacoes) VALUES (?,?)',(cnta,transacao))
 
     def imprimir_transacoes(cnta:str,cursor)-> list:
@@ -18,4 +18,3 @@ class Historico:
         for i in historico:
             h.append(list(i)[0])
         return '\n'.join(h)
-        #return self._transacoes

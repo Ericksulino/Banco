@@ -8,7 +8,7 @@ from PyQt5.QtCore import QCoreApplication
 import socket
 
 ip = 'localhost'
-port = 8001
+port = 8004
 addr = ((ip,port))
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(addr)
@@ -110,7 +110,6 @@ class Main(QMainWindow,Ui_Main):
         super(Main,self).__init__(parent)
         self.setupUi(self)
 
-        #self.ban = Banco()
         self.loginConta = None
         self.loginClien = None
         self.tela_inicio.ButCliente.clicked.connect(self.abrirMenuClie)
