@@ -120,16 +120,16 @@ class ClienteThread(threading.Thread):
                         con.send(f'{hist}'.encode())
 
 ip = 'localhost'
-porta = 1024
+porta = 8004
 endereco = ((ip,porta))
 serv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 serv_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 serv_socket.bind(endereco)
 sinc = threading.Lock()
 print("aguardando conexão...")
-serv_socket.listen(1)
-con, cliente = serv_socket.accept()
 
 while True:
+    serv_socket.listen(1)
+    con, cliente = serv_socket.accept()
     nova_thred = ClienteThread(endereco,con,sinc)
     nova_thred.start()
