@@ -36,7 +36,7 @@ class ClienteThread(threading.Thread):
         self.socket = socket
 
     def run(self):
-        print("Conectado")
+        print("Conectado...")
 
         while(True):
 
@@ -45,84 +45,82 @@ class ClienteThread(threading.Thread):
 
             print('cliente: ' + msg)
 
-            msg = recebe.decode().split(',')
+            if msg != '':
+                msg = recebe.decode().split(',')
 
-            if recebe.decode() == 'sair':
-                running = False
-
-            elif msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
+                if msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
                 
-                if not(Cliente.cadast_clie(msg[1],msg[2],msg[3],cursor)):
-                    con.send('erro'.encode())
-                else:
-                    con.send('sucesso'.encode())
-                    bd.commit()
+                    if not(Cliente.cadast_clie(msg[1],msg[2],msg[3],cursor)):
+                        con.send('erro'.encode())
+                    else:
+                        con.send('sucesso'.encode())
+                        bd.commit()
     
-            elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
+                elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
         
-                if not (Conta.abrir_conta(msg[1],msg[2],msg[3],msg[3],cursor)):
-                    con.send('erro'.encode())
-                else:
-                    con.send('sucesso'.encode())
-                    bd.commit()
+                    if not (Conta.abrir_conta(msg[1],msg[2],msg[3],msg[3],cursor)):
+                        con.send('erro'.encode())
+                    else:
+                        con.send('sucesso'.encode())
+                        bd.commit()
     
-            elif msg[0] == 'transfere': # ,num,numDest,valor
+                elif msg[0] == 'transfere': # ,num,numDest,valor
         
-                if not(Conta.transfere(msg[1],float(msg[2]),msg[3],cursor)):
-                    con.send('erro'.encode())
-                else:
-                    con.send('sucesso'.encode())
-                    bd.commit()
+                    if not(Conta.transfere(msg[1],float(msg[2]),msg[3],cursor)):
+                        con.send('erro'.encode())
+                    else:
+                        con.send('sucesso'.encode())
+                        bd.commit()
     
-            elif msg[0] == 'saque': # ,num,valor
+                elif msg[0] == 'saque': # ,num,valor
         
-                if not(Conta.saca(msg[1],float(msg[2]),cursor,True)):
-                    con.send('erro'.encode())
-                else:
-                    con.send('sucesso'.encode())
-                    bd.commit()
+                    if not(Conta.saca(msg[1],float(msg[2]),cursor,True)):
+                        con.send('erro'.encode())
+                    else:
+                        con.send('sucesso'.encode())
+                        bd.commit()
     
-            elif msg[0] == 'deposita': # ,num,valor
+                elif msg[0] == 'deposita': # ,num,valor
         
-                if not(Conta.deposita(msg[1],float(msg[2]),cursor,True)):
-                    con.send('erro'.encode())
-                else:
-                    con.send('sucesso'.encode())
-                    bd.commit()
+                    if not(Conta.deposita(msg[1],float(msg[2]),cursor,True)):
+                        con.send('erro'.encode())
+                    else:
+                        con.send('sucesso'.encode())
+                        bd.commit()
 
-            elif msg[0] == 'saldo': # ,num
-                extr = Conta.extrato(msg[1],cursor)
-                if extr == None:
-                    con.send('erro'.encode())
-                else:
-                    con.send(str(extr).encode())
-                    bd.commit()
+                elif msg[0] == 'saldo': # ,num
+                    extr = Conta.extrato(msg[1],cursor)
+                    if extr == None:
+                        con.send('erro'.encode())
+                    else:
+                        con.send(str(extr).encode())
+                        bd.commit()
 
-            elif msg[0] == 'busc_clie': # ,cpf
-                cli = Cliente.busca_clie(msg[1],cursor)
-                if cli == False:
-                    con.send('erro'.encode())
-                else:
-                    con.send(f'{cli}'.encode())
-                    bd.commit()
+                elif msg[0] == 'busc_clie': # ,cpf
+                    cli = Cliente.busca_clie(msg[1],cursor)
+                    if cli == False:
+                        con.send('erro'.encode())
+                    else:
+                        con.send(f'{cli}'.encode())
+                        bd.commit()
     
-            elif msg[0] == 'busca_cnta': # ,num 
-                cta = Conta.busca_conta(msg[1],cursor)
-                if cta==False:
-                    con.send('erro'.encode())
-                else:
-                    con.send(f'{cta}'.encode())
-                    bd.commit()
+                elif msg[0] == 'busca_cnta': # ,num 
+                    cta = Conta.busca_conta(msg[1],cursor)
+                    if cta==False:
+                        con.send('erro'.encode())
+                    else:
+                        con.send(f'{cta}'.encode())
+                        bd.commit()
             
-            elif msg[0] == 'historic': # ,num
-                hist = Historico.imprimir_transacoes(msg[1],cursor)
-                if hist == None:
-                    con.send('erro'.encode())
-                else:
-                    con.send(f'{hist}'.encode())
+                elif msg[0] == 'historic': # ,num
+                    hist = Historico.imprimir_transacoes(msg[1],cursor)
+                    if hist == None:
+                        con.send('erro'.encode())
+                    else:
+                        con.send(f'{hist}'.encode())
 
 ip = 'localhost'
-porta = 8004
+porta = 1024
 endereco = ((ip,porta))
 serv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 serv_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
@@ -131,9 +129,6 @@ sinc = threading.Lock()
 print("aguardando conexão...")
 serv_socket.listen(1)
 con, cliente = serv_socket.accept()
-
-print("conectado")
-print("aguardando mensagem...")
 
 while True:
     nova_thred = ClienteThread(endereco,con,sinc)

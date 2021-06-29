@@ -164,6 +164,7 @@ class Main(QMainWindow,Ui_Main):
         nome = self.tela_cadsClie.lineEdit.text()
         cpf = self.tela_cadsClie.lineEdit_2.text()
         nascimento = self.tela_cadsClie.lineEdit_3.text()
+
         if not(nome == '' or cpf == '' or nascimento == ''):
             client_socket.send('add_cliente,{},{},{}'.format(nome,cpf,nascimento).encode())
             res = client_socket.recv(1024).decode()
