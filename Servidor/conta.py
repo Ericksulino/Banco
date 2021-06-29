@@ -72,7 +72,7 @@ class Conta:
         saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = %s',(cnta)))[0][0]
         if valor > 0:
             saldo += valor
-            cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s'(float(saldo),cnta))
+            cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s',(float(saldo),cnta))
             if controle:
                 nova_transacao = 'Deposito -- Data: {} Valor: {}'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
