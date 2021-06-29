@@ -3,12 +3,14 @@ from os import curdir
 import socket
 import sqlite3
 import threading
+import psycopg2
 from sqlite3.dbapi2 import Cursor
 #from banco import Banco
 from pessoa import Cliente
 from conta import Conta
 
-bd = sqlite3.connect('bd.sqlite')
+#bd = sqlite3.connect('bd.sqlite')
+bd = psycopg2.connect(user = 'postgres',password = '1234',host = 'localhost',port = '5432',database = 'bd')
 cursor = bd.cursor()
 
 pessoas = """CREATE TABLE IF NOT EXISTS pessoas(id integir PRIMARY KEY,nome text NOT NULL,cpf text NOT NULL,data_nascimento text NOT NULL);"""
