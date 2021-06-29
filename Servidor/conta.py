@@ -4,7 +4,7 @@ from pessoa import Cliente
 
 class Conta:
 
-    saldo_atualizado = "UPDATE contas SET saldo = ? WHERE id = ?"
+    saldo_atualizado = "UPDATE contas SET saldo = %d WHERE id = ?"
 
     def __init__(self,numero:str,titular:str,saldo:float,limite:float):
         self._numero = numero
@@ -49,7 +49,7 @@ class Conta:
     #Pronto
     def abrir_conta(num,tit,sald,lim,cursor):
         if not(Conta.busca_conta(num,cursor)):
-            cursor.execute("INSERT INTO contas(numero,titular,saldo,limite) VALUES (?,?,?,?)",(num,tit,sald,lim))
+            cursor.execute("INSERT INTO contas(numero,titular,saldo,limite) VALUES (%s,%s,%s,%s)",(num,tit,sald,lim))
             return True
         else:
             return False
@@ -57,12 +57,11 @@ class Conta:
     #Pronto
     def saca(cnta:str,valor:float,cursor,controle)->bool:
 
-        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
+        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = %s',(cnta)))[0][0]
         if valor <= saldo and valor > 0:
             saldo -= valor
-            cursor.execute('UPDATE contas SET saldo = "{}" WHERE numero = "{}"'.format(saldo,cnta))
+            cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s',(float(saldo),str(cnta)))
             
-            #titular = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
             if controle:
                 nova_transacao = 'Saque -- Data: {} Valor: {}'.format((datetime.now().strftime('%d/%m/%Y %H:%M')),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
@@ -70,10 +69,10 @@ class Conta:
         return False
 
     def deposita(cnta:str,valor:float,cursor,controle)->bool:
-        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
+        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = %s',(cnta)))[0][0]
         if valor > 0:
             saldo += valor
-            cursor.execute('UPDATE contas SET saldo = "{}" WHERE numero = "{}"'.format(saldo,cnta))
+            cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s'(float(saldo),cnta))
             if controle:
                 nova_transacao = 'Deposito -- Data: {} Valor: {}'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
@@ -85,14 +84,14 @@ class Conta:
 
             if Conta.deposita(destino,valor,cursor,False):
 
-                aux = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(destino)))[0][0]
-                cliente = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = "{}"'.format(aux)))[0][0]
+                aux = list(cursor.execute('SELECT titular FROM contas WHERE numero = %s',(destino)))[0][0]
+                cliente = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = %s',(aux)))[0][0]
 
                 nova_transacao = 'Transferencia para {} -- Data: {} Valor: {}'.format(cliente,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
                 
-                aux2 = list(cursor.execute('SELECT titular FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
-                cliente2 = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = "{}"'.format(aux2)))[0][0]
+                aux2 = list(cursor.execute('SELECT titular FROM contas WHERE numero = %s',(cnta)))[0][0]
+                cliente2 = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = %s',(aux2)))[0][0]
                 
                 nova_transacao = 'Tranferencia recebida de "{}" -- Data: {} Valor: {} '.format(cliente2,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(destino,nova_transacao,cursor)
@@ -103,7 +102,7 @@ class Conta:
     #Pronto
     def busca_conta(numero_bus:str,cursor):
 
-        busca = 'SELECT numero FROM contas WHERE numero = "{}"'.format(numero_bus)
+        busca = 'SELECT numero FROM contas WHERE numero = %s',(numero_bus)
         cnt = list(cursor.execute(busca))
 
         if(len(cnt)!=0):
@@ -114,4 +113,4 @@ class Conta:
         return self.historico.imprimir_transacoes()
 
     def extrato(cnta:str,cursor):
-        return list(cursor.execute('SELECT saldo FROM contas WHERE numero = "{}"'.format(cnta)))[0][0]
+        return list(cursor.execute('SELECT saldo FROM contas WHERE numero = %s',(cnta)))[0][0]

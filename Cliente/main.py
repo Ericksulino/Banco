@@ -154,11 +154,9 @@ class Main(QMainWindow,Ui_Main):
         self.tela_transf.Home.clicked.connect(self.abrirMenuConta)
 
         self.tela_extrato.Home.clicked.connect(self.abrirMenuConta)
-        #self.tela_extrato.ButExtr.clicked.connect(self.botaoExtrato)
 
         self.tela_histo.ButHome.clicked.connect(self.abrirMenuConta)
         
-
 
     def botaoCadastClie(self):
         nome = self.tela_cadsClie.lineEdit.text()
@@ -168,7 +166,7 @@ class Main(QMainWindow,Ui_Main):
         if not(nome == '' or cpf == '' or nascimento == ''):
             client_socket.send('add_cliente,{},{},{}'.format(nome,cpf,nascimento).encode())
             res = client_socket.recv(1024).decode()
-            #p = Cliente(nome,cpf,nascimento)
+    
             if(res == 'sucesso'):
                 QMessageBox.information(None,'Banco','Cadastro realizado com sucesso!')
                 self.tela_cadsClie.lineEdit.setText('')
@@ -186,15 +184,13 @@ class Main(QMainWindow,Ui_Main):
         titular = self.tela_abrirConta.lineEdit_2.text()
         saldo = float(self.tela_abrirConta.lineEdit_3.text())
         limite = float(self.tela_abrirConta.lineEdit_4.text())
-        #client_socket.send('busc_clie,{}'.format(titular).encode())
-        #existe = client_socket.recv(1024).decode()
-        #pessoa = self.ban.busca_clie(titular)
+        
         client_socket.send('add_conta,{},{},{},{}'.format(num,titular,saldo,limite).encode())
         cnt = client_socket.recv(1024).decode()
         if not(num == '' or titular == '' or saldo == '' or limite == ''):
 
             if cnt == 'sucesso':
-                #c = Conta(num,pessoa,saldo,limite)
+                
                 QMessageBox.information(None,'Banco','Conta aberta com sucesso com sucesso!')
                 self.tela_abrirConta.lineEdit.setText('')
                 self.tela_abrirConta.lineEdit_2.setText('')
@@ -202,8 +198,7 @@ class Main(QMainWindow,Ui_Main):
                 self.tela_abrirConta.lineEdit_4.setText('')
             else:
                 QMessageBox.information(None,'Banco','O numero de conta ja encontra-se cadastrado!')
-            #else:
-                #QMessageBox.information(None,'Banco','Pessoa não cadastrada!')
+            
         else:
             QMessageBox.information(None,'Banco','Todos os campos devem ser preeecidos!')
         self.abrirHome()
@@ -215,15 +210,13 @@ class Main(QMainWindow,Ui_Main):
             cnta = []
             client_socket.send('busca_cnta,{}'.format(num).encode())
             conta = client_socket.recv(1024).decode()
-            #cnta = conta.split(',')
-            #existe = self.ban.busca_conta(num)
+            
             if(conta != 'erro'):
-                #if(cnta == self.loginClien):
-                    self.loginConta = num
-                    self.num = num
-                    self.abrirMenuConta()
-                #else:
-                   #QMessageBox.information(None,'Banco','O numero da conta informado não está atrelado a esse CPF!') 
+                
+                self.loginConta = num
+                self.num = num
+                self.abrirMenuConta()
+            
             else:
                 QMessageBox.information(None,'Banco','O numero da conta informado não existe!')
                 self.tela_acesso.InpNum.setText('')
@@ -236,12 +229,12 @@ class Main(QMainWindow,Ui_Main):
         cpf = self.tela_login.lineEdit.text()
         client_socket.send('busc_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
-        #pessoa = self.ban.busca_clie(cpf)
+        
         if pessoa != 'erro':
             pes = pessoa.split(',')
             self.loginClien = cpf
             self.abrirTelaAcess()
-            #self.tela_acesso.OutNom.setText(pes[0])
+            
             self.tela_login.lineEdit.setText('')
         else:
             QMessageBox.information(None,'Banco','O CPF informado não se encontra cadastrado!')
@@ -251,7 +244,7 @@ class Main(QMainWindow,Ui_Main):
         cpf = self.tela_busca_cliente.lineEdit.text()
         client_socket.send('busc_clie,{}'.format(cpf).encode())
         pessoa = client_socket.recv(1024).decode()
-        #pessoa = self.ban.busca_clie(cpf)
+        
         pes = pessoa.split(',')
         if(pessoa != 'erro'):
             self.tela_busca_cliente.lineEdit_2.setText(pes[0])
@@ -262,12 +255,12 @@ class Main(QMainWindow,Ui_Main):
             self.tela_busca_cliente.lineEdit.setText('')
 
     def botaoSaque(self):
-        #num = self.tela_saque.InpNum.text()
+        
         #verivicar se valor nao e zero
         valor = float(self.tela_saque.InpVal.text())
         client_socket.send('saque,{},{}'.format(self.loginConta,valor).encode())
         saq = client_socket.recv(1024).decode()
-        #saq = self.loginConta.saca(valor)
+        
         if (saq == 'sucesso'):
             QMessageBox.information(None,'Banco','Saque realizado com sucesso!')
             self.tela_saque.InpVal.setText('')
@@ -281,7 +274,7 @@ class Main(QMainWindow,Ui_Main):
         valor = float(self.tela_deposito.lineEdit.text())
         client_socket.send('deposita,{},{}'.format(num,valor).encode())
         dep = client_socket.recv(1024).decode()
-        #dep = self.ban.deposita(num,valor)
+        
         if dep=='sucesso':
                 QMessageBox.information(None,'Banco','Deposito realizado com sucesso!')
                 self.tela_deposito.InpNum.setText('')
@@ -292,7 +285,7 @@ class Main(QMainWindow,Ui_Main):
 
     def botaoTransfere(self):
         dest = []
-        #num = self.tela_transf.InpNum.text()
+        
         valor = float(self.tela_transf.InpVal.text())
         destino = self.tela_transf.InpDest.text()
         client_socket.send('busca_cnta,{}'.format(destino).encode())
@@ -302,9 +295,9 @@ class Main(QMainWindow,Ui_Main):
             client_socket.send('transfere,{},{},{}'.format(self.loginConta,valor,destino).encode())
             trans = client_socket.recv(1024).decode()
             if(trans == 'sucesso'):
-                #self.loginConta.transfere(valor,destino)
+                
                 QMessageBox.information(None,'Banco','Transferencia executada!')
-                #self.tela_transf.InpNum.setText('')
+                
                 self.tela_transf.InpVal.setText('')
                 self.tela_transf.InpDest.setText('')
                 self.abrirMenuConta
@@ -319,18 +312,14 @@ class Main(QMainWindow,Ui_Main):
         self.abrirTelaExtr()
         client_socket.send('saldo,{}'.format(self.loginConta).encode())
         extr = client_socket.recv(1024).decode()
-        #extr = str(self.loginConta.extrato())
-        #if(self.loginConta!=None):
-        #self.tela_extrato.OutTit.setText(self.loginConta.titular.nome)
+        
         self.tela_extrato.OutSald.setText(extr)
-        #else:
-        #QMessageBox.information(None,'Banco','Conta não encontrada!')
-
+        
     def botaoHistorico(self):
         self.abrirTelaHist()
         client_socket.send('historic,{}'.format(self.loginConta).encode())
         hist = client_socket.recv(1024).decode()
-        #x = self.loginConta.ver_historico()
+       
         self.tela_histo.textEdit.setText(hist)
     
     def botaoLogoutCont(self):
