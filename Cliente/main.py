@@ -247,7 +247,7 @@ class Main(QMainWindow,Ui_Main):
         
         pes = pessoa.split(',')
         if(pessoa != 'erro'):
-            self.tela_busca_cliente.lineEdit_2.setText(pes[0])
+            self.tela_busca_cliente.lineEdit_2.setText(pes[1])
             self.tela_busca_cliente.lineEdit_3.setText(pes[2])
 
         else:

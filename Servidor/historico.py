@@ -5,16 +5,26 @@ class Historico:
     def init(self):
         self._historico = []
 
-    def adicionar_transacao(cnta:str,transacao:str,cursor)->None:
+    def adicionar_transacao(cnta:str,transacao:str,cursor,sinc)->None:
 
+        sinc.acquire()
         cursor.execute('INSERT INTO historico(numero_conta,transacoes) VALUES (%s,%s)',(cnta,transacao))
+        sinc.release()
 
     def imprimir_transacoes(cnta:str,cursor)-> list:
-        data_abertura = datetime.now().strftime('%d/%m/%Y %H:%M')
-        historico = list(cursor.execute('SELECT transacoes FROM historico WHERE numero_conta = %s',(cnta)))
         h = []
+        
+        data_abertura = datetime.now().strftime('%d/%m/%Y %H:%M')
+        
+        cursor.execute('SELECT numero_conta,transacoes FROM historico')
+
         h.append("Conta aberta em: {}".format(data_abertura))
         h.append("Transações:")
-        for i in historico:
-            h.append(list(i)[0])
-        return '\n'.join(h)
+
+        for transacao in cursor:
+            if(str(transacao[0])==cnta):
+                h.append(transacao[1])
+        if len(h) == 0:
+            h.append('')
+        return h
+        

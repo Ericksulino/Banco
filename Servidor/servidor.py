@@ -1,13 +1,10 @@
-from historico import Historico
-from os import curdir
 import socket
 import sqlite3
 import threading
 import psycopg2
-from sqlite3.dbapi2 import Cursor
-#from banco import Banco
 from pessoa import Cliente
 from conta import Conta
+from historico import Historico
 
 #bd = sqlite3.connect('bd.sqlite')
 bd = psycopg2.connect(user = 'postgres',password = '1234',host = 'localhost',port = '5432',database = 'bd')
@@ -60,7 +57,7 @@ class ClienteThread(threading.Thread):
     
                 elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
         
-                    if not (Conta.abrir_conta(msg[1],msg[2],msg[3],msg[3],cursor)):
+                    if not (Conta.abrir_conta(msg[1],msg[2],msg[3],msg[3],cursor,self.sinc)):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())
@@ -84,7 +81,7 @@ class ClienteThread(threading.Thread):
     
                 elif msg[0] == 'deposita': # ,num,valor
         
-                    if not(Conta.deposita(msg[1],float(msg[2]),cursor,True)):
+                    if not(Conta.deposita(msg[1],float(msg[2]),cursor,True,self.sinc)):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())
@@ -107,7 +104,7 @@ class ClienteThread(threading.Thread):
                         bd.commit()
     
                 elif msg[0] == 'busca_cnta': # ,num 
-                    cta = Conta.busca_conta(msg[1],cursor)
+                    cta = Conta.busca_conta(msg[1],cursor,self.sinc)
                     if cta==False:
                         con.send('erro'.encode())
                     else:

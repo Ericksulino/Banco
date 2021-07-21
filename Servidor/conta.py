@@ -47,8 +47,9 @@ class Conta:
         self._historico = hist
 
     #Pronto
-    def abrir_conta(num,tit,sald,lim,cursor):
-        if not(Conta.busca_conta(num,cursor)):
+    def abrir_conta(num,tit,sald,lim,cursor,sinc):
+
+        if (Conta.busca_conta(num,cursor,sinc)) == False:
             cursor.execute("INSERT INTO contas(numero,titular,saldo,limite) VALUES (%s,%s,%s,%s)",(num,tit,sald,lim))
             return True
         else:
@@ -57,42 +58,74 @@ class Conta:
     #Pronto
     def saca(cnta:str,valor:float,cursor,controle)->bool:
 
-        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = %s',(cnta)))[0][0]
+        saldo = 0.0
+
+        cursor.execute('SELECT numero,saldo FROM contas')
+        for conta in cursor:
+            conta[0] == cnta
+            saldo = conta[1]
+
         if valor <= saldo and valor > 0:
             saldo -= valor
-            cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s',(float(saldo),str(cnta)))
-            
+            cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s',(float(saldo),cnta))
+
             if controle:
                 nova_transacao = 'Saque -- Data: {} Valor: {}'.format((datetime.now().strftime('%d/%m/%Y %H:%M')),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
             return True
         return False
 
-    def deposita(cnta:str,valor:float,cursor,controle)->bool:
-        saldo = list(cursor.execute('SELECT saldo FROM contas WHERE numero = %s',(cnta)))[0][0]
-        if valor > 0:
-            saldo += valor
-            cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s',(float(saldo),cnta))
+    def deposita(cnta:str,valor:float,cursor,controle,sinc)->bool:
+
+        saldo = 0.0
+        sinc.acquire()
+        cursor.execute('SELECT numero,saldo FROM contas')
+        sinc.release()
+        for conta in cursor:
+            conta[0] == cnta
+            saldo = conta[1]
+
+            if valor > 0:
+                saldo += valor
+                sinc.acquire()
+                cursor.execute('UPDATE contas SET saldo = %s WHERE numero = %s',(float(saldo),cnta))
+                sinc.release()
+
             if controle:
                 nova_transacao = 'Deposito -- Data: {} Valor: {}'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
-                Historico.adicionar_transacao(cnta,nova_transacao,cursor)
+                Historico.adicionar_transacao(cnta,nova_transacao,cursor,sinc)
             return True
         return False
 
     def transfere(cnta:str,valor:float,destino:str,cursor)->bool:
-        if Conta.saca(cnta,valor,cursor,False):
 
+        if Conta.saca(cnta,valor,cursor,False):
+ 
             if Conta.deposita(destino,valor,cursor,False):
 
-                aux = list(cursor.execute('SELECT titular FROM contas WHERE numero = %s',(destino)))[0][0]
-                cliente = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = %s',(aux)))[0][0]
+                cursor.execute('SELECT titular,numero FROM contas')
+                for num_cont in cursor:
+                    if(num_cont[1] == destino):
+                        aux = num_cont[0]
+                
+                cursor.execute('SELECT nome,cpf FROM pessoas')
+                for nome in cursor:
+                    if(nome[1] == aux):
+                        cliente = nome[0]
 
                 nova_transacao = 'Transferencia para {} -- Data: {} Valor: {}'.format(cliente,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(cnta,nova_transacao,cursor)
                 
-                aux2 = list(cursor.execute('SELECT titular FROM contas WHERE numero = %s',(cnta)))[0][0]
-                cliente2 = list(cursor.execute('SELECT nome FROM pessoas WHERE cpf = %s',(aux2)))[0][0]
+                cursor.execute('SELECT titular,numero FROM contas')
+                for num_cont2 in cursor:
+                    if(num_cont2[1] == cnta):
+                        aux2 = num_cont2[0]
                 
+                cursor.execute('SELECT nome,cpf FROM pessoas')
+                for nome2 in cursor:
+                    if(nome2[1] == aux):
+                        cliente2 = nome2[0]
+
                 nova_transacao = 'Tranferencia recebida de "{}" -- Data: {} Valor: {} '.format(cliente2,datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
                 Historico.adicionar_transacao(destino,nova_transacao,cursor)
 
@@ -100,17 +133,24 @@ class Conta:
         return False
 
     #Pronto
-    def busca_conta(numero_bus:str,cursor):
+    def busca_conta(numero_bus:str,cursor,sinc):
 
-        busca = 'SELECT numero FROM contas WHERE numero = %s',(numero_bus)
-        cnt = list(cursor.execute(busca))
-
-        if(len(cnt)!=0):
-            return True
+        sinc.acquire()
+        cursor.execute('SELECT numero FROM contas')
+        sinc.release()
+        
+        for conta in cursor:
+            if (conta[0] == numero_bus):
+                return True
         return False
 
     def ver_historico(self):
         return self.historico.imprimir_transacoes()
 
     def extrato(cnta:str,cursor):
-        return list(cursor.execute('SELECT saldo FROM contas WHERE numero = %s',(cnta)))[0][0]
+
+        cursor.execute('SELECT numero,saldo FROM contas')
+        for conta in cursor:
+            if(conta[0] == cnta):
+                return conta[1]
+        return False

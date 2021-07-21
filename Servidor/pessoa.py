@@ -11,14 +11,16 @@ class Cliente:
     
     def busca_clie(buscar_cpf:str,cursor):
     
-        pessoa = list(cursor.execute("SELECT * FROM pessoas WHERE cpf = %s",(buscar_cpf)))
-        if (len(pessoa)!=0):
-            return pessoa[0][0]
+        cursor.execute('SELECT cpf,nome,data_nascimento FROM pessoas')
+        
+        for pessoa in cursor:
+            if (pessoa[0] == buscar_cpf):
+                return pessoa
         return False
 
     def cadast_clie(nome:str,cpf:str,data_nascimento:str,cursor):
 
-        if Cliente.busca_clie(cpf,cursor)== False:
+        if (Cliente.busca_clie(cpf,cursor)) == False:
             cursor.execute("INSERT INTO pessoas(nome,cpf,data_nascimento) VALUES(%s,%s,%s)",(nome,cpf,data_nascimento))
             return True
         return False
