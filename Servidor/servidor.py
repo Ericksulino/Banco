@@ -1,3 +1,4 @@
+from re import split
 import socket
 import sqlite3
 import threading
@@ -40,12 +41,14 @@ class ClienteThread(threading.Thread):
         while(True):
 
             recebe = self.socket.recv(1024)
-            msg = recebe.decode()
+            msg_recebida = recebe.decode()
 
-            print('cliente: ' + msg)
+            print('cliente: ' + msg_recebida)
 
-            if msg != '':
-                msg = recebe.decode().split(',')
+            if msg_recebida != '':
+                msg = msg_recebida.split(',')
+
+                print(msg)
 
                 if msg[0] == 'add_cliente': # ,nome,cpf,data_nascimento
                 
@@ -55,7 +58,7 @@ class ClienteThread(threading.Thread):
                         con.send('sucesso'.encode())
                         bd.commit()
     
-                elif msg[0] == 'add_conta': # ,numero,titular,saldo,limite
+                if msg[0] == 'add_conta': # ,numero,titular,saldo,limite
         
                     if not (Conta.abrir_conta(msg[1],msg[2],msg[3],msg[3],cursor,self.sinc)):
                         con.send('erro'.encode())
@@ -63,7 +66,7 @@ class ClienteThread(threading.Thread):
                         con.send('sucesso'.encode())
                         bd.commit()
     
-                elif msg[0] == 'transfere': # ,num,numDest,valor
+                if msg[0] == 'transfere': # ,num,numDest,valor
         
                     if not(Conta.transfere(msg[1],float(msg[2]),msg[3],cursor,self.sinc)):
                         con.send('erro'.encode())
@@ -71,7 +74,7 @@ class ClienteThread(threading.Thread):
                         con.send('sucesso'.encode())
                         bd.commit()
     
-                elif msg[0] == 'saque': # ,num,valor
+                if msg[0] == 'saque': # ,num,valor
         
                     if not(Conta.saca(msg[1],float(msg[2]),cursor,True)):
                         con.send('erro'.encode())
@@ -79,7 +82,7 @@ class ClienteThread(threading.Thread):
                         con.send('sucesso'.encode())
                         bd.commit()
     
-                elif msg[0] == 'deposita': # ,num,valor
+                if msg[0] == 'deposita': # ,num,valor
         
                     if not(Conta.deposita(msg[1],float(msg[2]),cursor,True,self.sinc)):
                         con.send('erro'.encode())
@@ -87,7 +90,7 @@ class ClienteThread(threading.Thread):
                         con.send('sucesso'.encode())
                         bd.commit()
 
-                elif msg[0] == 'saldo': # ,num
+                if msg[0] == 'saldo': # ,num
                     extr = Conta.extrato(msg[1],cursor)
                     if extr == None:
                         con.send('erro'.encode())
@@ -95,7 +98,7 @@ class ClienteThread(threading.Thread):
                         con.send(str(extr).encode())
                         bd.commit()
 
-                elif msg[0] == 'busc_clie': # ,cpf
+                if msg[0] == 'busc_clie': # ,cpf
                     cli = Cliente.busca_clie(msg[1],cursor)
                     if cli == False:
                         con.send('erro'.encode())
@@ -103,7 +106,7 @@ class ClienteThread(threading.Thread):
                         con.send(f'{cli}'.encode())
                         bd.commit()
     
-                elif msg[0] == 'busca_cnta': # ,num 
+                if msg[0] == 'busca_cnta': # ,num 
                     cta = Conta.busca_conta(msg[1],cursor,self.sinc)
                     if cta==False:
                         con.send('erro'.encode())
@@ -111,7 +114,7 @@ class ClienteThread(threading.Thread):
                         con.send(f'{cta}'.encode())
                         bd.commit()
             
-                elif msg[0] == 'historic': # ,num
+                if msg[0] == 'historic': # ,num
                     hist = Historico.imprimir_transacoes(msg[1],cursor)
                     if hist == None:
                         con.send('erro'.encode())
