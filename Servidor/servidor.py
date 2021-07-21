@@ -65,7 +65,7 @@ class ClienteThread(threading.Thread):
     
                 elif msg[0] == 'transfere': # ,num,numDest,valor
         
-                    if not(Conta.transfere(msg[1],float(msg[2]),msg[3],cursor)):
+                    if not(Conta.transfere(msg[1],float(msg[2]),msg[3],cursor,self.sinc)):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())

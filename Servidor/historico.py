@@ -5,11 +5,9 @@ class Historico:
     def init(self):
         self._historico = []
 
-    def adicionar_transacao(cnta:str,transacao:str,cursor,sinc)->None:
+    def adicionar_transacao(cnta:str,transacao:str,cursor)->None:
 
-        sinc.acquire()
         cursor.execute('INSERT INTO historico(numero_conta,transacoes) VALUES (%s,%s)',(cnta,transacao))
-        sinc.release()
 
     def imprimir_transacoes(cnta:str,cursor)-> list:
         h = []

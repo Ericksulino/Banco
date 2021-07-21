@@ -93,15 +93,15 @@ class Conta:
 
             if controle:
                 nova_transacao = 'Deposito -- Data: {} Valor: {}'.format(datetime.now().strftime('%d/%m/%Y %H:%M'),valor)
-                Historico.adicionar_transacao(cnta,nova_transacao,cursor,sinc)
+                Historico.adicionar_transacao(cnta,nova_transacao,cursor)
             return True
         return False
 
-    def transfere(cnta:str,valor:float,destino:str,cursor)->bool:
+    def transfere(cnta:str,valor:float,destino:str,cursor,sinc)->bool:
 
         if Conta.saca(cnta,valor,cursor,False):
  
-            if Conta.deposita(destino,valor,cursor,False):
+            if Conta.deposita(destino,valor,cursor,False,sinc):
 
                 cursor.execute('SELECT titular,numero FROM contas')
                 for num_cont in cursor:
