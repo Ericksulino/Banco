@@ -6,8 +6,8 @@ import psycopg2
 from pessoa import Cliente
 from conta import Conta
 from historico import Historico
+import os
 
-#bd = sqlite3.connect('bd.sqlite')
 bd = psycopg2.connect(user = 'postgres',password = '1234',host = 'localhost',port = '5432',database = 'bd')
 cursor = bd.cursor()
 
@@ -39,7 +39,7 @@ class ClienteThread(threading.Thread):
         print("Conectado...")
 
         while(True):
-
+            
             recebe = self.socket.recv(1024)
             msg_recebida = recebe.decode()
 
@@ -56,7 +56,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())
-                        bd.commit()
+                        #bd.commit()
     
                 if msg[0] == 'add_conta': # ,numero,titular,saldo,limite
         
@@ -64,7 +64,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())
-                        bd.commit()
+                        #bd.commit()
     
                 if msg[0] == 'transfere': # ,num,numDest,valor
         
@@ -72,7 +72,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())
-                        bd.commit()
+                        #bd.commit()
     
                 if msg[0] == 'saque': # ,num,valor
         
@@ -80,7 +80,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())
-                        bd.commit()
+                        #bd.commit()
     
                 if msg[0] == 'deposita': # ,num,valor
         
@@ -88,7 +88,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send('sucesso'.encode())
-                        bd.commit()
+                        #bd.commit()
 
                 if msg[0] == 'saldo': # ,num
                     extr = Conta.extrato(msg[1],cursor)
@@ -96,7 +96,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send(str(extr).encode())
-                        bd.commit()
+                        #bd.commit()
 
                 if msg[0] == 'busc_clie': # ,cpf
                     cli = Cliente.busca_clie(msg[1],cursor)
@@ -104,7 +104,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send(f'{cli}'.encode())
-                        bd.commit()
+                        #bd.commit()
     
                 if msg[0] == 'busca_cnta': # ,num 
                     cta = Conta.busca_conta(msg[1],cursor,self.sinc)
@@ -112,7 +112,7 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send(f'{cta}'.encode())
-                        bd.commit()
+                        #bd.commit()
             
                 if msg[0] == 'historic': # ,num
                     hist = Historico.imprimir_transacoes(msg[1],cursor)
@@ -120,6 +120,8 @@ class ClienteThread(threading.Thread):
                         con.send('erro'.encode())
                     else:
                         con.send(f'{hist}'.encode())
+
+            bd.commit()
 
 ip = 'localhost'
 porta = 8004

@@ -1,17 +1,15 @@
-from sqlite3.dbapi2 import Cursor
-import sys
-import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox,QMainWindow,QApplication,QFileDialog
 from PyQt5.QtCore import QCoreApplication
 import socket
+import os
 
 ip = 'localhost'
-port = 8004
-addr = ((ip,port))
+porta = 8004
+endereco = ((ip,porta))
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect(addr)
+client_socket.connect(endereco)
 
 #from conta import Conta
 #from cliente import Cliente
@@ -375,3 +373,5 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     show_main = Main()
     sys.exit(app.exec_())
+
+client_socket.close()
