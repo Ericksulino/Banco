@@ -141,7 +141,7 @@ class Conta:
         
         for conta in cursor:
             if (conta[0] == numero_bus):
-                return True
+                return conta
         return False
 
     def ver_historico(self):

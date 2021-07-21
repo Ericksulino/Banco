@@ -370,6 +370,7 @@ class Main(QMainWindow,Ui_Main):
         self.QtStack.setCurrentIndex(12)
 
 if __name__ == "__main__":
+    import sys
     app = QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     show_main = Main()
